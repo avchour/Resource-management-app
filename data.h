@@ -3,9 +3,10 @@
 
 typedef struct 
 {
-    int stockID[100];
-    int quantity[100];
-    int cost[100];
+    char itemName [100];
+    int stockID;
+    int quantity;
+    int cost;
     int minimum;
 } Stock;
 
