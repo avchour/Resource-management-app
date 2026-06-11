@@ -7,6 +7,7 @@ typedef struct
     int minimum;
 } stock;
 
+void checkStock() {}
 void checkStock()
 {
 }
