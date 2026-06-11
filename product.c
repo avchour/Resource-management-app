@@ -1,14 +1,9 @@
-typedef struct 
+#include <stdio.h>
+
+void checkStock()
 {
-    int stockID[100];
-    int quantity[100];
-    int cost[100];
-    int minimum;
-}stock;
-
-void checkStock(){
-
 }
-void alert (){
-
+void alert()
+{
+    printf("Hello World");
 }
