@@ -1,7 +1,8 @@
 #ifndef DATA_H
 #define DATA_H
 #include <time.h>
-
+#define MAX_STOCK 100
+#define MAX_ORDER 500
 typedef struct
 {
     char itemName[100];
@@ -48,4 +49,13 @@ typedef struct
 
     double transportCost;
 } RestockOrder;
+typedef struct 
+{
+    int stockItemCount;
+    int nextStockID;
+    Stock stockitem[MAX_STOCK];
+    int restockOrderCount;
+    int nextOrderId;
+    RestockOrder restockorderitem [MAX_ORDER];
+}StoreData;
 #endif
