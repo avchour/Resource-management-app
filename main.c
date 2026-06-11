@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include "product.h"
 #include "data.h"
-
+#include <time.h>
 // typedef struct
 // {
 //     int stockID[100];
