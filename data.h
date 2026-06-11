@@ -1,13 +1,17 @@
 #ifndef DATA_H
 #define DATA_H
 
-typedef struct 
+typedef struct
 {
-    char itemName [100];
+    char itemName[100];
     int stockID;
-    int quantity;
-    int cost;
-    int minimum;
+    float sellingcost;
+    float costprice;
+    int stock;
+    int safetyStock;
+    int alertPoint;
+    int physicalReserve;
+    int normalRestockQuantity;
+    int emergencyRestockQuantity;
 } Stock;
-
 #endif
