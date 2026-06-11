@@ -1,18 +1,18 @@
 #include <stdio.h>
-typedef struct 
+typedef struct
 {
     int stockID[100];
     int quantity[100];
     int cost[100];
     int minimum;
-}stock;
+} stock;
 
-void checkStock(){
-
+void checkStock()
+{
 }
-void alert (){
-
+void alert()
+{
 }
-int main(){
-
+int main()
+{
 }
