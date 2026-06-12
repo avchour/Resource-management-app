@@ -95,15 +95,21 @@ void adminMode_first()
     // ask admin to input the item name, in price, out price, and quantity
     while (admin_mode1_running)
     {
-        printf("Enter item name: ");
+        printf("Enter item name: \n");
         fgets(item_name, sizeof(item_name), stdin);
-        printf("Enter in price: ");
+        printf("Enter in price: \n");
         scanf("%f", &in_price);
-        printf("Enter out price: ");
+        printf("Enter out price: \n");
         scanf("%f", &out_price);
-        printf("Enter quantity: ");
+        printf("Enter quantity: \n");
         scanf("%d", &quantity);
-        // change conditon to stop the loop when admin finish inputing the item(admin mode running false)
+        printf("Do you want to add another item? (y/n): ");
+        char choice;
+        scanf(" %c", &choice);
+        if (choice == 'n' || choice == 'N')
+        {
+            admin_mode1_running = false;
+        }
     }
 }
 
