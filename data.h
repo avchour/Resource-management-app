@@ -9,7 +9,7 @@ typedef struct
     int stockID;
     float sellingcost; // dak louk
     float costprice;   // we owner go to buy stock
-    int stock;
+    int quantity;
     int safetyStock;
     int onlineStock;
     int physicalStock;
