@@ -55,7 +55,7 @@ typedef struct
     int nextStockID;
     Stock stockItem[MAX_STOCK];
     int restockOrderCount;
-    int nextOrderId;
+    long nextOrderId;
     RestockOrder restockOrderItem[MAX_ORDER];
 } StoreData;
 extern StoreData store;
