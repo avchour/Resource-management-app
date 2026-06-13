@@ -77,16 +77,16 @@ AddProductResult addProduct(const char itemName[],
         &store.stockItem[store.stockItemCount];
 
     /*
-        Copy the product name safely.
+        Copy the product name safely.//snprintf(destination,destination_size,"%s",source);=
+Safely copy source string into destination string.// can use strcpy but to prevent buffer overflow and crash program.
     */
     snprintf(newItem->itemName,
              sizeof(newItem->itemName),
              "%s",
-             itemName);
+             itemName);// strcpy (newItem->itemName,itemName);
 
     /*
-        Assign automatic ID:
-        101, 102, 103, ...
+        Assign automatic ID.
     */
     newItem->stockID = store.nextStockID;
 
