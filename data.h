@@ -2,22 +2,22 @@
 #define DATA_H
 #include <time.h>
 #define MAX_STOCK 100
-#define MAX_ORDER 500 // for restock seller request when stock alert 
+#define MAX_ORDER 500 // for restock seller request when stock alert
 typedef struct
 {
     char itemName[100];
     int stockID;
-    float sellingcost;// dak louk
-    float costprice;// we owner go to buy stock
-    int stock;
+    float sellingcost; // dak louk
+    float costprice;   // we owner go to buy stock
+    int quantity;
     int safetyStock;
     int onlineStock;
     int physicalStock;
-
+    
     int onlineAlertPoint;
     int physicalAlertPoint;
-
-    int normalRestockQuantity; // standard coke :100
+    
+    int normalRestockQuantity;    // standard coke :100
     int emergencyRestockQuantity; // emer: 10 immediet request->
 } Stock;
 typedef enum // for restock schedule 5day per restock; otherwise got request emergency
@@ -37,25 +37,26 @@ typedef struct
 {
     long orderId;
     int productId;
-
+    
     RestockType type;
     DeliveryStatus status;
-
+    
     int quantity;
-
+    
     time_t requestedAt;
     time_t expectedArrivalAt;
     time_t confirmedAt;
-
+    
     double transportCost;
 } RestockOrder; // for track restock
-typedef struct 
+typedef struct
 {
     int stockItemCount;
     int nextStockID;
-    Stock stockitem[MAX_STOCK];
+    Stock stockItem[MAX_STOCK];
     int restockOrderCount;
-    int nextOrderId;
-    RestockOrder restockorderitem [MAX_ORDER];
-}StoreData;
+    long nextOrderId;
+    RestockOrder restockOrderItem[MAX_ORDER];
+} StoreData;
+extern StoreData store;
 #endif
