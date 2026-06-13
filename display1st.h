@@ -107,6 +107,7 @@ void adminMode_first()
         printf("Enter quantity: \n");
         scanf("%d", &quantity);
         AddProductResult(addProduct(item_name, in_price, out_price, quantity));
+        // add something
         printf("Do you want to add another item? (y/n): ");
         char choice;
         scanf(" %c", &choice);
