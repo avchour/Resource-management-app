@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "data.h"
+#include "product.h"
 
 void display_login()
 {
@@ -45,7 +46,7 @@ void admin_identification()
     printf("Enter admin username: ");
     fgets(admin_username, sizeof(admin_username), stdin);
     printf("Enter the password: ");
-    scanf("%s", admin_password);
+    fgets(admin_password, sizeof(admin_password), stdin);
     if (strcmp(admin_username, "admin") == 0 && strcmp(admin_password, "password123") == 0)
     {
         printf("Login successful!\n");
@@ -54,6 +55,8 @@ void admin_identification()
     else
     {
         printf("Invalid username or password. Access denied.\n");
+        printf("Please try again.\n");
+        admin_identification();
     }
 
     // if (admin_password matched ) ---> admin mode
@@ -103,6 +106,7 @@ void adminMode_first()
         scanf("%f", &out_price);
         printf("Enter quantity: \n");
         scanf("%d", &quantity);
+        AddProductResult(addProduct(item_name, in_price, out_price, quantity));
         printf("Do you want to add another item? (y/n): ");
         char choice;
         scanf(" %c", &choice);
@@ -231,6 +235,7 @@ void customerMode() // should be add exit mode
         }
 
     } while (customer_mode_running);
+    display_login();
 }
 
 void displayfooditems()
