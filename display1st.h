@@ -111,6 +111,7 @@ void adminMode_first()
             admin_mode1_running = false;
         }
     }
+    choosemode();
 }
 
 void adminMode_second()
@@ -146,7 +147,7 @@ void adminMode_second()
             viewpendingrestockorders();
             break;
         case 5:
-            calculatedailysalesreport();
+            calculatedaily_monthlysalesreport();
             break;
         case 6:
             admin_mode2_running = false;
@@ -157,6 +158,8 @@ void adminMode_second()
             break;
         }
     } while (admin_mode2_running);
+
+    choosemode();
 }
 
 void displayallitems()
@@ -179,21 +182,79 @@ void viewpendingrestockorders()
     // code to view pending restock orders and date
 }
 
-void calculatedailysalesreport()
+void calculatedaily_monthlysalesreport()
 {
-    // code to calculate daily sales report
+    // code to calculate daily and monthly sales reports
 }
 
-void calculatemonthlysalesreport()
-{
-    // code to calculate monthly sales report
-}
-
+// bigg work bro
 void customerMode() // should be add exit mode
 // if user choice is 2
 {
-    // user has to choose one of 4 categories: 1. food, 2. drink......
-    // design the customer mode
+    bool customer_mode_running = true;
+    do
+    {
+        int customer_choice;
+        printf("\n====================================\n");
+        printf("           SELECT CATEGORY\n");
+        printf("====================================\n");
+        printf("1. Food\n");
+        printf("2. Drinks\n");
+        printf("3. Snacks\n");
+        printf("4. Hot deal\n");
+        printf("5. Exit\n");
+        printf("------------------------------------\n");
+        printf("Enter your choice: ");
+        scanf("%d", &customer_choice);
+
+        switch (customer_choice)
+        {
+        case 1:
+            displayfooditems();
+            break;
+        case 2:
+            displaydrinkitems();
+            break;
+        case 3:
+            displaysnackitems();
+            break;
+        case 4:
+            displayhotdealitems();
+            break;
+        case 5:
+            customer_mode_running = false;
+            printf("Exiting customer mode.\n");
+            break;
+        default:
+            printf("Invalid choice! Please try again.\n");
+            break;
+        }
+
+    } while (customer_mode_running);
+}
+
+void displayfooditems()
+{
+    // code to display food items
+    // exit displayfood
+}
+
+void displaydrinkitems()
+{
+    // code to display drink items
+    // exit displaydrink
+}
+
+void displaysnackitems()
+{
+    // code to display snack items
+    // exit displaysnack
+}
+
+void displayhotdealitems()
+{
+    // code to display hot deal items
+    // exit displayhotdeal
 }
 
 int main()
