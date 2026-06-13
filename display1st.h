@@ -61,7 +61,7 @@ void admin_identification()
 
     // if (admin_password matched ) ---> admin mode
 }
-
+//--------------------------------------
 void choosemode()
 {
     int allmode;
@@ -166,33 +166,38 @@ void adminMode_second()
 
     choosemode();
 }
-
+//--------------------------------------------------
 void displayallitems()
 {
     // code to display all items in inventory
+    // exit to adminMode_second
 }
 
 void viewlowstockitems()
 {
     // code to view low stock items
+    // exit to adminMode_second
 }
 
 void viewoutofstockitems()
 {
     // code to view out of stock items
+    // exit to adminMode_second
 }
 
 void viewpendingrestockorders()
 {
     // code to view pending restock orders and date
+    // exit to adminMode_second
 }
 
 void calculatedaily_monthlysalesreport()
 {
     // code to calculate daily and monthly sales reports
+    // exit to adminMode_second
 }
+//------------------------------------------------------------------------------------------------------------------
 
-// bigg work bro
 void customerMode() // should be add exit mode
 // if user choice is 2
 {
@@ -242,26 +247,28 @@ void customerMode() // should be add exit mode
 void displayfooditems()
 {
     // code to display food items
-    // exit displayfood
+    // exit to customerMode
 }
 
 void displaydrinkitems()
 {
     // code to display drink items
-    // exit displaydrink
+    // exit to customerMode
 }
 
 void displaysnackitems()
 {
     // code to display snack items
-    // exit displaysnack
+    // exit to customerMode
 }
 
 void displayhotdealitems()
 {
     // code to display hot deal items
-    // exit displayhotdeal
+    // exit to customerMode
 }
+
+//------------------------------------------------------------------------------------------------------------------
 
 int main()
 {
