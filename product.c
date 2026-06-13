@@ -73,50 +73,50 @@ AddProductResult addProduct(const char itemName[],
     /*
         Use the next unused position.
     */
-    Stock *newItem =
+    Stock *productItem =
         &store.stockItem[store.stockItemCount];
 
     /*
         Copy the product name safely.//snprintf(destination,destination_size,"%s",source);=
 Safely copy source string into destination string.// can use strcpy but to prevent buffer overflow and crash program.
     */
-    snprintf(newItem->itemName,
-             sizeof(newItem->itemName),
+    snprintf(productItem->itemName,
+             sizeof(productItem->itemName),
              "%s",
              itemName);// strcpy (newItem->itemName,itemName);
 
     /*
         Assign automatic ID.
     */
-    newItem->stockID = store.nextStockID;
+    productItem->stockID = store.nextStockID;
 
     /*
         Prices.
     */
-    newItem->costprice = costprice;
-    newItem->sellingcost = sellingcost;
+    productItem->costprice = costprice;
+    productItem->sellingcost = sellingcost;
 
     /*
         Initial delivered quantity goes into storage.
     */
-    newItem->quantity = quantity;
+    productItem->quantity = quantity;
 
     /*
         Allocate these later using another feature.
     */
-    newItem->onlineStock = 0;
-    newItem->physicalStock = 0;
+    productItem->onlineStock = 0;
+    productItem->physicalStock = 0;
 
     /*
         Configure these later.
     */
-    newItem->safetyStock = 0;
+    productItem->safetyStock = 0;
 
-    newItem->onlineAlertPoint = 0;
-    newItem->physicalAlertPoint = 0;
+    productItem->onlineAlertPoint = 0;
+    productItem->physicalAlertPoint = 0;
 
-    newItem->normalRestockQuantity = 0;
-    newItem->emergencyRestockQuantity = 0;
+    productItem->normalRestockQuantity = 0;
+    productItem->emergencyRestockQuantity = 0;
 
     /*
         Update store counters.
