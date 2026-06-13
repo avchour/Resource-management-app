@@ -1,8 +1,7 @@
 #include <stdio.h>
+#include "data.h"
 
-
-
-int main()
+int main(void)
 {
-   
+printf ( "current pro. %d",);
 }
