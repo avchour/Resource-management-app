@@ -19,6 +19,7 @@ int findStockIndexByName(const char itemName[]);
 AddProductResult addProduct(const char itemName[],
                             float costprice,
                             float sellingcost,
-                            int quantity);
+                            int quantity,
+                            char category[]);
 
 #endif

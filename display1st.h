@@ -93,6 +93,7 @@ void adminMode_first()
     float in_price, out_price;
     int quantity;
     bool admin_mode1_running = true;
+    char category[20];
 
     // design the admin mode if not gui
     // ask admin to input the item name, in price, out price, and quantity
@@ -106,7 +107,10 @@ void adminMode_first()
         scanf("%f", &out_price);
         printf("Enter quantity: \n");
         scanf("%d", &quantity);
-        AddProductResult(addProduct(item_name, in_price, out_price, quantity));
+        printf("Enter category (F)ood (D)rinks (S)nacks: \n");
+        scanf("%s", &category);
+
+        AddProductResult(addProduct(item_name, in_price, out_price, quantity, category));
         // add something
         printf("Do you want to add another item? (y/n): ");
         char choice;
@@ -169,18 +173,21 @@ void adminMode_second()
 //--------------------------------------------------
 void displayallitems()
 {
+
     // code to display all items in inventory
     // exit to adminMode_second
 }
 
 void viewlowstockitems()
 {
+
     // code to view low stock items
     // exit to adminMode_second
 }
 
 void viewoutofstockitems()
 {
+
     // code to view out of stock items
     // exit to adminMode_second
 }
@@ -246,18 +253,39 @@ void customerMode() // should be add exit mode
 
 void displayfooditems()
 {
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        if (strcmp(store.stockItem[i].category, "F") == 0)
+        {
+            printf("%s - %.2f\n", store.stockItem[i].itemName, store.stockItem[i].sellingcost);
+        }
+    }
     // code to display food items
     // exit to customerMode
 }
 
 void displaydrinkitems()
 {
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        if (strcmp(store.stockItem[i].category, "D") == 0)
+        {
+            printf("%s - %.2f\n", store.stockItem[i].itemName, store.stockItem[i].sellingcost);
+        }
+    }
     // code to display drink items
     // exit to customerMode
 }
 
 void displaysnackitems()
 {
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        if (strcmp(store.stockItem[i].category, "S") == 0)
+        {
+            printf("%s - %.2f\n", store.stockItem[i].itemName, store.stockItem[i].sellingcost);
+        }
+    }
     // code to display snack items
     // exit to customerMode
 }
