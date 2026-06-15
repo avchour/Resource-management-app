@@ -6,7 +6,7 @@
 typedef struct
 {
     char itemName[100];
-    char category[20];
+    char category[50];
     int stockID;
     float sellingcost; // dak louk
     float costprice;   // we owner go to buy stock
@@ -20,6 +20,9 @@ typedef struct
 
     int normalRestockQuantity;    // standard coke :100
     int emergencyRestockQuantity; // emer: 10 immediet request->
+
+    time_t stockArrivalDate;
+    float exchangeFeeRate;
 } Stock;
 typedef enum // for restock schedule 5day per restock; otherwise got request emergency
 {
@@ -50,6 +53,16 @@ typedef struct
 
     double transportCost;
 } RestockOrder; // for track restock
+
+typedef struct
+{
+    long transactionId;
+    int stockID;
+    int quantity;
+    float totalAmount;
+    time_t transactionDate;
+} Transaction;
+
 typedef struct
 {
     int stockItemCount;
@@ -58,6 +71,8 @@ typedef struct
     int restockOrderCount;
     long nextOrderId;
     RestockOrder restockOrderItem[MAX_ORDER];
+    Transaction transactionItem[MAX_TRANSACTION];
+    int transactionCount;
 } StoreData;
 extern StoreData store;
 #endif
