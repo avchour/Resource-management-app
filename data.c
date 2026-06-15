@@ -6,4 +6,5 @@ StoreData store = {
     .nextStockID = 101,
     .restockOrderCount = 0,
     .nextOrderId = 1,
+    .transactionCount =0
 };
