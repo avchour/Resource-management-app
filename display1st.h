@@ -92,8 +92,8 @@ void adminMode_first()
     char item_name[58];
     float in_price, out_price;
     int quantity;
-    bool admin_mode1_running = true;
     char category[20];
+    bool admin_mode1_running = true;
 
     // design the admin mode if not gui
     // ask admin to input the item name, in price, out price, and quantity
@@ -110,7 +110,7 @@ void adminMode_first()
         printf("Enter category (F)ood (D)rinks (S)nacks: \n");
         scanf("%s", &category);
 
-        AddProductResult(addProduct(item_name, in_price, out_price, quantity, category));
+        AddProductResult(addProduct(item_name, in_price, out_price, quantity, category)); // check if it invalid input or duplicate item name or full inventory
         // add something
         printf("Do you want to add another item? (y/n): ");
         char choice;
@@ -173,13 +173,89 @@ void adminMode_second()
 //--------------------------------------------------
 void displayallitems()
 {
+    if (store.stockItemCount == 0)
+    {
+        printf("\nNo items in inventory.\n");
+        return;
+    }
 
+    printf("\n====================================\n");
+    printf("          ALL INVENTORY ITEMS\n");
+    printf("====================================\n");
+    printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n",
+           "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
+    printf("------------------------------------"
+           "------------------------------------\n");
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *s = &store.stockItem[i];
+        printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
+               s->stockID,
+               s->itemName,
+               s->category,
+               s->costprice,
+               s->sellingcost,
+               s->onlineStock,
+               s->physicalStock,
+               s->quantity);
+    }
+
+    printf("------------------------------------\n");
+    printf("Total items: %d\n", store.stockItemCount);
     // code to display all items in inventory
     // exit to adminMode_second
 }
 
 void viewlowstockitems()
 {
+    printf("\n====================================\n");
+    printf("          LOW STOCK ITEMS\n");
+    printf("====================================\n");
+
+    int found = 0;
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *s = &store.stockItem[i];
+
+        int onlineLow = s->onlineStock <= s->onlineAlertPoint && s->onlineAlertPoint > 0;
+        int physLow = s->physicalStock <= s->physicalAlertPoint && s->physicalAlertPoint > 0;
+
+        if (onlineLow || physLow)
+        {
+            if (found == 0)
+            {
+                printf("%-6s %-20s %-10s %-8s %-8s %-10s %-10s\n",
+                       "ID", "Name", "Category",
+                       "Online", "Phys",
+                       "OnlineAP", "PhysAP");
+                printf("------------------------------------"
+                       "------------------------\n");
+            }
+
+            printf("%-6d %-20s %-10s %-8d %-8d %-10d %-10d",
+                   s->stockID, s->itemName, s->category,
+                   s->onlineStock, s->physicalStock,
+                   s->onlineAlertPoint, s->physicalAlertPoint);
+
+            if (onlineLow && physLow)
+                printf("  [ONLINE + PHYSICAL LOW]");
+            else if (onlineLow)
+                printf("  [ONLINE LOW]");
+            else
+                printf("  [PHYSICAL LOW]");
+
+            printf("\n");
+            found++;
+        }
+    }
+    if (found == 0)
+        printf("No low stock items found.\n");
+    else
+        printf("------------------------------------\n");
+
+    printf("Total low stock items: %d\n", found);
 
     // code to view low stock items
     // exit to adminMode_second
@@ -187,6 +263,51 @@ void viewlowstockitems()
 
 void viewoutofstockitems()
 {
+    printf("\n====================================\n");
+    printf("        OUT OF STOCK ITEMS\n");
+    printf("====================================\n");
+
+    int found = 0;
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *s = &store.stockItem[i];
+
+        int onlineOut = s->onlineStock <= 0;
+        int physOut = s->physicalStock <= 0;
+
+        if (onlineOut || physOut)
+        {
+            if (found == 0)
+            {
+                printf("%-6s %-20s %-10s %-10s %-12s\n",
+                       "ID", "Name", "Category", "Online", "Physical");
+                printf("------------------------------------"
+                       "------------\n");
+            }
+
+            printf("%-6d %-20s %-10s %-10d %-12d",
+                   s->stockID, s->itemName, s->category,
+                   s->onlineStock, s->physicalStock);
+
+            if (onlineOut && physOut)
+                printf("  [FULLY OUT OF STOCK]");
+            else if (onlineOut)
+                printf("  [ONLINE OUT]");
+            else
+                printf("  [PHYSICAL OUT]");
+
+            printf("\n");
+            found++;
+        }
+    }
+
+    if (found == 0)
+        printf("All items are in stock.\n");
+    else
+        printf("------------------------------------\n");
+
+    printf("Total out-of-stock items: %d\n", found);
 
     // code to view out of stock items
     // exit to adminMode_second
@@ -194,12 +315,157 @@ void viewoutofstockitems()
 
 void viewpendingrestockorders()
 {
+    printf("\n====================================\n");
+    printf("      PENDING RESTOCK ORDERS\n");
+    printf("====================================\n");
+
+    int found = 0;
+
+    for (int i = 0; i < store.restockOrderCount; i++)
+    {
+        RestockOrder *o = &store.restockOrderItem[i];
+
+        if (o->status == DELIVERY_IN_TRANSIT)
+        {
+            if (found == 0)
+            {
+                printf("%-8s %-8s %-10s %-10s %-6s %-20s %-20s\n",
+                       "OrderID", "ProdID", "Type", "Status",
+                       "Qty", "Requested At", "Expected At");
+                printf("------------------------------------"
+                       "------------------------------------\n");
+            }
+
+            /* Format requestedAt */
+            char reqBuf[20], expBuf[20];
+            struct tm *tmReq = localtime(&o->requestedAt);
+            struct tm *tmExp = localtime(&o->expectedArrivalAt);
+            strftime(reqBuf, sizeof(reqBuf), "%Y-%m-%d", tmReq);
+            strftime(expBuf, sizeof(expBuf), "%Y-%m-%d", tmExp);
+
+            printf("%-8ld %-8d %-10s %-10s %-6d %-20s %-20s\n",
+                   o->orderId,
+                   o->productId,
+                   o->type == RESTOCK_EMERGENCY ? "EMERGENCY" : "NORMAL",
+                   "IN TRANSIT",
+                   o->quantity,
+                   reqBuf,
+                   expBuf);
+
+            found++;
+        }
+    }
+
+    if (found == 0)
+        printf("No pending restock orders.\n");
+    else
+        printf("------------------------------------\n");
+
+    printf("Total pending orders: %d\n", found);
+
     // code to view pending restock orders and date
     // exit to adminMode_second
 }
 
 void calculatedaily_monthlysalesreport()
 {
+    if (store.transactionCount == 0)
+    {
+        printf("\nNo transactions recorded.\n");
+        return;
+    }
+
+    /* Ask user which report they want */
+    int choice;
+    printf("\n====================================\n");
+    printf("          SALES REPORT\n");
+    printf("====================================\n");
+    printf("1. Daily report\n");
+    printf("2. Monthly report\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+
+    time_t now = time(NULL);
+    struct tm *tmNow = localtime(&now);
+
+    float totalRevenue = 0.0f;
+    int totalQty = 0;
+    int txCount = 0;
+
+    printf("\n");
+
+    for (int i = 0; i < store.transactionCount; i++)
+    {
+        Transaction *t = &store.transactionItem[i];
+        struct tm *tmTx = localtime(&t->transactionDate);
+
+        int match = 0;
+
+        if (choice == 1)
+        {
+            /* Same calendar day */
+            match = (tmTx->tm_year == tmNow->tm_year &&
+                     tmTx->tm_yday == tmNow->tm_yday);
+        }
+        else if (choice == 2)
+        {
+            /* Same month and year */
+            match = (tmTx->tm_year == tmNow->tm_year &&
+                     tmTx->tm_mon == tmNow->tm_mon);
+        }
+
+        if (match)
+        {
+            totalRevenue += t->totalAmount;
+            totalQty += t->quantity;
+            txCount++;
+        }
+    }
+
+    if (choice == 1)
+    {
+        char dateBuf[20];
+        strftime(dateBuf, sizeof(dateBuf), "%Y-%m-%d", tmNow);
+        printf("Daily Sales Report — %s\n", dateBuf);
+    }
+    else
+    {
+        char monthBuf[20];
+        strftime(monthBuf, sizeof(monthBuf), "%B %Y", tmNow);
+        printf("Monthly Sales Report — %s\n", monthBuf);
+    }
+
+    printf("------------------------------------\n");
+    printf("Transactions  : %d\n", txCount);
+    printf("Units sold    : %d\n", totalQty);
+    printf("Total revenue : $%.2f\n", totalRevenue);
+
+    /* Cost calculation for profit estimate */
+    float totalCost = 0.0f;
+    for (int i = 0; i < store.transactionCount; i++)
+    {
+        Transaction *t = &store.transactionItem[i];
+        struct tm *tmTx = localtime(&t->transactionDate);
+
+        int match = 0;
+        if (choice == 1)
+            match = (tmTx->tm_year == tmNow->tm_year &&
+                     tmTx->tm_yday == tmNow->tm_yday);
+        else
+            match = (tmTx->tm_year == tmNow->tm_year &&
+                     tmTx->tm_mon == tmNow->tm_mon);
+
+        if (match)
+        {
+            int idx = findStockIndexByID(t->stockID);
+            if (idx != -1)
+                totalCost += store.stockItem[idx].costprice * t->quantity;
+        }
+    }
+
+    printf("Estimated cost: $%.2f\n", totalCost);
+    printf("Gross profit  : $%.2f\n", totalRevenue - totalCost);
+    printf("====================================\n");
     // code to calculate daily and monthly sales reports
     // exit to adminMode_second
 }
