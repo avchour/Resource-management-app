@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include "stockmanagement.h"
-#include "product.h"
 #define ONLINE_RATIO 0.6
 #define PHYSICAL_RATIO 0.4
-void allocateStock(Stock *store)
+void allocateStock(Stock *item)
 {
     if (item == NULL)
         return;
 
     item->onlineStock = (int)(item->quantity * ONLINE_RATIO);
-    item->physicalStock = (int)(item->quantity * PHYSICAL_RATIO);
+    item->physicalStock = item->quantity - item->onlineStock; // important cannot use ration multiplication it may lost 1 item due to bug convert integer
 }
 void allocateAllStocks()
 {
