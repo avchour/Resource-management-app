@@ -8,8 +8,7 @@
 PhysicalPurchaseResult
 simulatePhysicalPurchase(int stockID)
 {
-    int index =
-        findStockIndexByID(stockID);
+    int index = findStockIndexByID(stockID);
 
     if (index == -1)
     {
@@ -20,7 +19,7 @@ simulatePhysicalPurchase(int stockID)
     {
         return PHYSICAL_PURCHASE_OUT_OF_STOCK;
     }
-// verify later with quantity
+    // verify later with quantity
     int quantity =
         rand() % 5 + 1;
 
