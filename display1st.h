@@ -551,6 +551,37 @@ void displaysnackitems()
 
 void displayhotdealitems()
 {
+    printf("\n====================================\n");
+    printf("             HOT DEAL \n");
+    printf("====================================\n");
+
+    int found = 0;
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *s = &store.stockItem[i];
+
+        // calculate how many days since item arrived
+        double daysInStock = difftime(time(NULL), s->stockArrivalDate) / 86400.0;
+
+        // item expires at 14 days
+        // so if 9 or more days passed, it will expire within 5 days
+        double daysUntilExpiry = 14.0 - daysInStock;
+
+        if (daysUntilExpiry <= 5.0 && daysUntilExpiry > 0)
+        {
+            printf("%s - %.2f (Only %.0f days left!)\n",
+                   s->itemName,
+                   s->sellingcost,
+                   daysUntilExpiry);
+
+            found++;
+        }
+    }
+
+    if (found == 0)
+        printf("No hot deal items at the moment.\n");
+
     // code to display hot deal items
     // exit to customerMode
 }
