@@ -74,7 +74,7 @@ void admin_identification()
 void choosemode()
 {
     int allmode;
-    printf("\n===============NOTE===============\n");
+    printf("\n===============MODE===============\n");
     printf("------------------------------------\n");
     printf("First mode: Add items to inventory\n");
     printf("Second mode: Check inventory\n");
@@ -169,7 +169,7 @@ void adminMode_second()
             viewPendingRestockOrders();
             break;
         case 5:
-            calculatedaily_monthlysalesreport();
+            calculatedaily_monthlysalesReport();
             break;
         case 6:
             admin_mode2_running = false;
@@ -183,7 +183,9 @@ void adminMode_second()
 
     choosemode();
 }
-//--------------------------------------------------
+
+// dol kleng vetanea
+
 void displayallitems()
 {
     if (store.stockItemCount == 0)
@@ -191,32 +193,36 @@ void displayallitems()
         printf("\nNo items in inventory.\n");
         return;
     }
-
-    printf("\n====================================\n");
-    printf("        ALL ITEMS IN INVENTORY\n");
-    printf("====================================\n");
-    printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n", "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
-    printf("----------------------------------------------------------------\n");
-
-    for (int i = 0; i < store.stockItemCount; i++)
+    else
     {
-        Stock *s = &store.stockItem[i];
-        printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
-               s->stockID,
-               s->itemName,
-               s->category,
-               s->costprice,
-               s->sellingcost,
-               s->onlineStock,
-               s->physicalStock,
-               s->quantity);
-    }
+        printf("\n====================================\n");
+        printf("        ALL ITEMS IN INVENTORY\n");
+        printf("====================================\n");
+        printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n", "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
+        printf("----------------------------------------------------------------\n");
 
-    printf("------------------------------------\n");
-    printf("Total items: %d\n", store.stockItemCount);
+        for (int i = 0; i < store.stockItemCount; i++)
+        {
+            Stock *s = &store.stockItem[i];
+            printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
+                   s->stockID,
+                   s->itemName,
+                   s->category,
+                   s->costprice,
+                   s->sellingcost,
+                   s->onlineStock,
+                   s->physicalStock,
+                   s->quantity);
+        }
+
+        printf("------------------------------------\n");
+        printf("Total items: %d\n", store.stockItemCount);
+    }
     // code to display all items in inventory
     // exit to adminMode_second
 }
+
+// checked
 
 void viewlowstockitems()
 {
@@ -228,19 +234,18 @@ void viewlowstockitems()
 
     for (int i = 0; i < store.stockItemCount; i++)
     {
-        Stock *s = &store.stockItem[i];
+        Stock *s = &store.stockItem[i]; // use instead of using store.stockItem[i] many times
 
         if (s->onlineStock <= s->onlineAlertPoint && s->onlineAlertPoint > 0)
         {
             if (found == 0)
             {
                 printf("%-6s %-20s %-10s %-8s\n",
-                       "ID", "Name", "Category",
-                       "Online");
+                       "ID", "Name", "Quantity", "Online");
                 printf("----------------------------------------------------------------");
             }
 
-            printf("%-6d %-20s %-10s %-8d\n", s->stockID, s->itemName, s->category, s->onlineStock);
+            printf("%-6d %-20s %-10s %-8d\n", s->stockID, s->itemName, s->quantity, s->onlineStock);
             found++;
         }
 
@@ -249,12 +254,11 @@ void viewlowstockitems()
             if (found == 0)
             {
                 printf("%-6s %-20s %-10s %-8s\n",
-                       "ID", "Name", "Category",
-                       "Physical");
+                       "ID", "Name", "Quantity", "Physical");
                 printf("----------------------------------------------------------------");
             }
 
-            printf("%-6d %-20s %-10s %-8d\n", s->stockID, s->itemName, s->category, s->physicalStock);
+            printf("%-6d %-20s %-10d %-8d\n", s->stockID, s->itemName, s->quantity, s->physicalStock);
 
             found++;
         }
@@ -265,11 +269,13 @@ void viewlowstockitems()
     else
         printf("----------------------------------------------------------------\n");
 
-    printf("Total low stock items: %d\n", found);
+    printf("Low stock items: %d\n", found);
 
     // code to view low stock items
     // exit to adminMode_second
 }
+
+// checked
 
 void viewoutofstockitems()
 {
@@ -307,6 +313,9 @@ void viewoutofstockitems()
     // exit to adminMode_second
 }
 
+// checked
+
+/*
 void viewPendingRestockOrders()
 {
     printf("\n====================================\n");
@@ -330,7 +339,7 @@ void viewPendingRestockOrders()
                        "------------------------------------\n");
             }
 
-            /* Format requestedAt */
+            // Format requestedAt
             char reqBuf[20], expBuf[20];
             struct tm *tmReq = localtime(&o->requestedAt);
             struct tm *tmExp = localtime(&o->expectedArrivalAt);
@@ -361,7 +370,10 @@ void viewPendingRestockOrders()
     // exit to adminMode_second
 }
 
-void calculatedaily_monthlysalesreport()
+*/
+
+/*
+void calculatedaily_monthlysalesReport()
 {
     if (store.transactionCount == 0)
     {
@@ -369,7 +381,7 @@ void calculatedaily_monthlysalesreport()
         return;
     }
 
-    /* Ask user which report they want */
+    // Ask user which report they want
     int choice;
     printf("\n====================================\n");
     printf("          SALES REPORT\n");
@@ -396,13 +408,13 @@ void calculatedaily_monthlysalesreport()
 
         if (choice == 1)
         {
-            /* Same calendar day */
+            // Same calendar day
             match = (tmTx->tm_year == tmNow->tm_year &&
                      tmTx->tm_yday == tmNow->tm_yday);
         }
         else if (choice == 2)
         {
-            /* Same month and year */
+            // Same month and year
             match = (tmTx->tm_year == tmNow->tm_year &&
                      tmTx->tm_mon == tmNow->tm_mon);
         }
@@ -433,7 +445,7 @@ void calculatedaily_monthlysalesreport()
     printf("Units sold    : %d\n", totalQty);
     printf("Total revenue : $%.2f\n", financeReport);
 
-    /* Cost calculation for profit estimate */
+    // Cost calculation for profit estimate
     float totalCost = 0.0f;
     for (int i = 0; i < store.transactionCount; i++)
     {
@@ -462,9 +474,12 @@ void calculatedaily_monthlysalesreport()
     // code to calculate daily and monthly sales reports
     // exit to adminMode_second
 }
-//------------------------------------------------------------------------------------------------------------------
+*/
 
-void customerMode() // should be add exit mode
+//----------------------------------------------------------------------------------------------------------------------------
+
+// need cuustomer buying process function
+void customerMode() // should be added exit mode
 // if user choice is 2
 {
     bool customer_mode_running = true;
@@ -512,6 +527,10 @@ void customerMode() // should be add exit mode
 
 void displayfooditems()
 {
+    printf("\n====================================\n");
+    printf("              FOOD\n");
+    printf("====================================\n");
+
     for (int i = 0; i < store.stockItemCount; i++)
     {
         if (strcmp(store.stockItem[i].category, "F") == 0)
@@ -519,12 +538,18 @@ void displayfooditems()
             printf("%s - %.2f\n", store.stockItem[i].itemName, store.stockItem[i].sellingcost);
         }
     }
+
+    calculating_system(); // call the calculating_system function to allow customer to buy the item
     // code to display food items
     // exit to customerMode
 }
 
 void displaydrinkitems()
 {
+    printf("\n====================================\n");
+    printf("             DRINKS\n");
+    printf("====================================\n");
+
     for (int i = 0; i < store.stockItemCount; i++)
     {
         if (strcmp(store.stockItem[i].category, "D") == 0)
@@ -532,12 +557,18 @@ void displaydrinkitems()
             printf("%s - %.2f\n", store.stockItem[i].itemName, store.stockItem[i].sellingcost);
         }
     }
+
+    calculating_system(); // call the calculating_system function to allow customer to buy the item
     // code to display drink items
     // exit to customerMode
 }
 
 void displaysnackitems()
 {
+    printf("\n====================================\n");
+    printf("             SNACKS\n");
+    printf("====================================\n");
+
     for (int i = 0; i < store.stockItemCount; i++)
     {
         if (strcmp(store.stockItem[i].category, "S") == 0)
@@ -545,6 +576,8 @@ void displaysnackitems()
             printf("%s - %.2f\n", store.stockItem[i].itemName, store.stockItem[i].sellingcost);
         }
     }
+
+    calculating_system(); // call the calculating_system function to allow customer to buy the item
     // code to display snack items
     // exit to customerMode
 }
@@ -561,7 +594,6 @@ void displayhotdealitems()
     {
         Stock *s = &store.stockItem[i];
 
-        // calculate how many days since item arrived
         double daysInStock = difftime(time(NULL), s->stockArrivalDate) / 86400.0;
 
         // item expires at 14 days
@@ -580,11 +612,85 @@ void displayhotdealitems()
     }
 
     if (found == 0)
+    {
         printf("No hot deal items at the moment.\n");
+    }
+
+    calculating_system(); // call the calculating_system function to allow customer to buy the item
 
     // code to display hot deal items
     // exit to customerMode
 }
+/*
+void calculating_system()
+{
+    int stockID;
+    int quantity;
+
+    printf("\n------------------------------------\n");
+    printf("Enter item ID to purchase (0 to cancel): ");
+    scanf("%d", &stockID);
+
+    if (stockID == 0)
+    {
+        printf("Purchase cancelled.\n");
+        return;
+    }
+
+    // find the item using stockID
+    int index = findStockIndexByID(stockID);
+
+    if (index == -1)
+    {
+        printf("Item not found.\n");
+        return;
+    }
+
+    Stock *s = &store.stockItem[index];
+
+    printf("Enter quantity: ");
+    scanf("%d", &quantity);
+
+    if (quantity <= 0)
+    {
+        printf("Invalid quantity.\n");
+        return;
+    }
+
+    if (s->physicalStock < quantity)
+    {
+        printf("Not enough stock. Only %d left.\n", s->physicalStock);
+        return;
+    }
+
+    // calculate total price
+    float total = s->sellingcost * quantity;
+
+    // deduct stock
+    s->physicalStock -= quantity;
+    s->quantity -= quantity;
+
+    // record the transaction
+    Transaction *t = &store.transactionItem[store.transactionCount];
+    t->transactionId = store.transactionCount + 1;
+    t->stockID       = s->stockID;
+    t->quantity      = quantity;
+    t->totalAmount   = total;
+    t->transactionDate = time(NULL);
+    store.transactionCount++;
+
+    // show receipt
+    printf("\n====================================\n");
+    printf("             RECEIPT\n");
+    printf("====================================\n");
+    printf("Item     : %s\n", s->itemName);
+    printf("Quantity : %d\n", quantity);
+    printf("Price    : %.2f each\n", s->sellingcost);
+    printf("Total    : %.2f\n", total);
+    printf("====================================\n");
+
+}
+*/
 
 //------------------------------------------------------------------------------------------------------------------
 
