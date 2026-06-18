@@ -55,13 +55,22 @@ void admin_identification()
     else
     {
         printf("Invalid username or password. Access denied.\n");
-        printf("Please try again.\n");
-        admin_identification();
+        printf("Login again or Exit to main menu \n");
+        // ask user to input again or exit to main menu
+        char returnToMainChoice;
+        printf("Do you want to try login again? (y/n): ");
+        scanf(" %c", &returnToMainChoice);
+        if (returnToMainChoice == 'n' || returnToMainChoice == 'N')
+            display_login();
+        else
+        {
+            admin_identification();
+        }
     }
 
     // if (admin_password matched ) ---> admin mode
 }
-//--------------------------------------
+
 void choosemode()
 {
     int allmode;
@@ -69,16 +78,20 @@ void choosemode()
     printf("------------------------------------\n");
     printf("First mode: Add items to inventory\n");
     printf("Second mode: Check inventory\n");
-    printf("Enter mode (1 for first mode, 2 for second mode): ");
+    printf("Enter mode (1 for first mode, 2 for second mode or 3 to exit): ");
     scanf("%d", &allmode);
 
     switch (allmode)
     {
     case 1:
-        adminMode_first();
+        adminMode_first(); // add items
         break;
     case 2:
-        adminMode_second();
+        adminMode_second(); // check inventory
+        break;
+    case 3:
+        printf("Exiting admin mode.\n");
+        display_login();
         break;
     default:
         printf("Invalid choice!\n");
@@ -153,7 +166,7 @@ void adminMode_second()
             viewoutofstockitems();
             break;
         case 4:
-            viewpendingrestockorders();
+            viewPendingRestockOrders();
             break;
         case 5:
             calculatedaily_monthlysalesreport();
@@ -180,12 +193,10 @@ void displayallitems()
     }
 
     printf("\n====================================\n");
-    printf("          ALL INVENTORY ITEMS\n");
+    printf("        ALL ITEMS IN INVENTORY\n");
     printf("====================================\n");
-    printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n",
-           "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
-    printf("------------------------------------"
-           "------------------------------------\n");
+    printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n", "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
+    printf("----------------------------------------------------------------\n");
 
     for (int i = 0; i < store.stockItemCount; i++)
     {
@@ -219,41 +230,40 @@ void viewlowstockitems()
     {
         Stock *s = &store.stockItem[i];
 
-        int onlineLow = s->onlineStock <= s->onlineAlertPoint && s->onlineAlertPoint > 0;
-        int physLow = s->physicalStock <= s->physicalAlertPoint && s->physicalAlertPoint > 0;
-
-        if (onlineLow || physLow)
+        if (s->onlineStock <= s->onlineAlertPoint && s->onlineAlertPoint > 0)
         {
             if (found == 0)
             {
-                printf("%-6s %-20s %-10s %-8s %-8s %-10s %-10s\n",
+                printf("%-6s %-20s %-10s %-8s\n",
                        "ID", "Name", "Category",
-                       "Online", "Phys",
-                       "OnlineAP", "PhysAP");
-                printf("------------------------------------"
-                       "------------------------\n");
+                       "Online");
+                printf("----------------------------------------------------------------");
             }
 
-            printf("%-6d %-20s %-10s %-8d %-8d %-10d %-10d",
-                   s->stockID, s->itemName, s->category,
-                   s->onlineStock, s->physicalStock,
-                   s->onlineAlertPoint, s->physicalAlertPoint);
+            printf("%-6d %-20s %-10s %-8d\n", s->stockID, s->itemName, s->category, s->onlineStock);
+            found++;
+        }
 
-            if (onlineLow && physLow)
-                printf("  [ONLINE + PHYSICAL LOW]");
-            else if (onlineLow)
-                printf("  [ONLINE LOW]");
-            else
-                printf("  [PHYSICAL LOW]");
+        if (s->physicalStock <= s->physicalAlertPoint && s->physicalAlertPoint > 0)
+        {
+            if (found == 0)
+            {
+                printf("%-6s %-20s %-10s %-8s\n",
+                       "ID", "Name", "Category",
+                       "Physical");
+                printf("----------------------------------------------------------------");
+            }
 
-            printf("\n");
+            printf("%-6d %-20s %-10s %-8d\n", s->stockID, s->itemName, s->category, s->physicalStock);
+
             found++;
         }
     }
+
     if (found == 0)
         printf("No low stock items found.\n");
     else
-        printf("------------------------------------\n");
+        printf("----------------------------------------------------------------\n");
 
     printf("Total low stock items: %d\n", found);
 
@@ -273,50 +283,34 @@ void viewoutofstockitems()
     {
         Stock *s = &store.stockItem[i];
 
-        int onlineOut = s->onlineStock <= 0;
-        int physOut = s->physicalStock <= 0;
-
-        if (onlineOut || physOut)
+        if (s->quantity > 0 && s->onlineStock <= 0 && s->physicalStock <= 0)
         {
             if (found == 0)
             {
-                printf("%-6s %-20s %-10s %-10s %-12s\n",
-                       "ID", "Name", "Category", "Online", "Physical");
-                printf("------------------------------------"
-                       "------------\n");
+                printf("%-6s %-20s\n", "ID", "Name");
+                printf("----------------------------\n");
             }
 
-            printf("%-6d %-20s %-10s %-10d %-12d",
-                   s->stockID, s->itemName, s->category,
-                   s->onlineStock, s->physicalStock);
-
-            if (onlineOut && physOut)
-                printf("  [FULLY OUT OF STOCK]");
-            else if (onlineOut)
-                printf("  [ONLINE OUT]");
-            else
-                printf("  [PHYSICAL OUT]");
-
-            printf("\n");
+            printf("%-6d %-20s\n", s->stockID, s->itemName);
             found++;
         }
     }
 
     if (found == 0)
-        printf("All items are in stock.\n");
+        printf("No out of stock items found.\n");
     else
-        printf("------------------------------------\n");
+        printf("----------------------------\n");
 
-    printf("Total out-of-stock items: %d\n", found);
+    printf("Total out of stock items: %d\n", found);
 
     // code to view out of stock items
     // exit to adminMode_second
 }
 
-void viewpendingrestockorders()
+void viewPendingRestockOrders()
 {
     printf("\n====================================\n");
-    printf("      PENDING RESTOCK ORDERS\n");
+    printf("           PENDING RESTOCK \n");
     printf("====================================\n");
 
     int found = 0;
@@ -384,15 +378,14 @@ void calculatedaily_monthlysalesreport()
     printf("2. Monthly report\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
+    printf("\n");
 
     time_t now = time(NULL);
     struct tm *tmNow = localtime(&now);
 
-    float totalRevenue = 0.0f;
+    float financeReport = 0.0f;
     int totalQty = 0;
     int txCount = 0;
-
-    printf("\n");
 
     for (int i = 0; i < store.transactionCount; i++)
     {
@@ -416,7 +409,7 @@ void calculatedaily_monthlysalesreport()
 
         if (match)
         {
-            totalRevenue += t->totalAmount;
+            financeReport += t->totalAmount;
             totalQty += t->quantity;
             txCount++;
         }
@@ -438,7 +431,7 @@ void calculatedaily_monthlysalesreport()
     printf("------------------------------------\n");
     printf("Transactions  : %d\n", txCount);
     printf("Units sold    : %d\n", totalQty);
-    printf("Total revenue : $%.2f\n", totalRevenue);
+    printf("Total revenue : $%.2f\n", financeReport);
 
     /* Cost calculation for profit estimate */
     float totalCost = 0.0f;
@@ -464,7 +457,7 @@ void calculatedaily_monthlysalesreport()
     }
 
     printf("Estimated cost: $%.2f\n", totalCost);
-    printf("Gross profit  : $%.2f\n", totalRevenue - totalCost);
+    printf("Gross profit  : $%.2f\n", financeReport - totalCost);
     printf("====================================\n");
     // code to calculate daily and monthly sales reports
     // exit to adminMode_second
