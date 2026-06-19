@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "physical_purchase.h"
+#include "physicalPurchase.h"
 #include "product.h"
 #include "data.h"
 

@@ -1,5 +1,5 @@
-#ifndef PHYSICAL_PURCHASE_H
-#define PHYSICAL_PURCHASE_H
+#ifndef PHYSICALPURCHASE_H
+#define PHYSICALPURCHASE_H
 
 typedef enum
 {

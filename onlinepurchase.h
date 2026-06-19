@@ -1,5 +1,5 @@
-#ifndef ONLINE_PURCHASE_H
-#define ONLINE_PURCHASE_H
+#ifndef ONLINEPURCHASE_H
+#define ONLINEPURCHASE_H
 
 typedef enum
 {

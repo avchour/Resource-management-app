@@ -3,6 +3,7 @@
 #include <time.h>
 #define MAX_STOCK 100
 #define MAX_ORDER 500 // for restock seller request when stock alert
+#define MAX_TRANSACTION 100*100
 typedef struct
 {
     char itemName[100];
@@ -39,8 +40,8 @@ typedef enum // transport 3days to reach storage
 
 typedef struct
 {
-    long orderId;
-    int productId;
+    int orderId;// requestID
+    int stockID;//productID
 
     RestockType type;
     DeliveryStatus status;
@@ -51,12 +52,12 @@ typedef struct
     time_t expectedArrivalAt;
     time_t confirmedAt;
 
-    double transportCost;
+    float transportCost;
 } RestockOrder; // for track restock
 
 typedef struct
 {
-    long transactionId;
+    int transactionId;
     int stockID;
     int quantity;
     float totalAmount;
@@ -69,7 +70,7 @@ typedef struct
     int nextStockID;
     Stock stockItem[MAX_STOCK];
     int restockOrderCount;
-    long nextOrderId;
+    int nextOrderId;
     RestockOrder restockOrderItem[MAX_ORDER];
     Transaction transactionItem[MAX_TRANSACTION];
     int transactionCount;
