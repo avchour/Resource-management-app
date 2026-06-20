@@ -1,3 +1,4 @@
+#include <limits.h>
 #include "finance.h"
 #include "data.h"
 #include "product.h"
@@ -33,6 +34,12 @@ float calculateProfit()
 {
     return calculateRevenue() - calculateExpense();
 }
+
+int getTotalTransactions()
+{
+    return store.transactionCount;
+}
+
 int getTotalItemsSold()
 {
     int totalItemsSold = 0;
@@ -44,6 +51,7 @@ int getTotalItemsSold()
 
     return totalItemsSold;
 }
+
 int getMostSoldProduct()
 {
     int mostSoldIndex = -1;
@@ -58,7 +66,7 @@ int getMostSoldProduct()
             if (store.transactionItem[j].stockID == store.stockItem[i].stockID)
             {
                 totalSold += store.transactionItem[j].quantity;
-            }// STORE SAME ID ITEM 
+            }
         }
 
         if (totalSold > mostSoldQty)
@@ -70,24 +78,26 @@ int getMostSoldProduct()
 
     return mostSoldIndex;
 }
+
 int getLeastSoldProduct()
 {
     int leastSoldIndex = -1;
-    int leastSoldQty = 999999;
+    int leastSoldQty = INT_MAX; // high num int can also assume 999999
 
-    for(int i = 0; i < store.stockItemCount; i++)
+    for (int i = 0; i < store.stockItemCount; i++)
     {
         int totalSold = 0;
 
-        for(int j = 0; j < store.transactionCount; j++)
+        for (int j = 0; j < store.transactionCount; j++)
         {
-            if(store.transactionItem[j].stockID == store.stockItem[i].stockID)
+            if (store.transactionItem[j].stockID == store.stockItem[i].stockID)
             {
-                totalSold +=store.transactionItem[j].quantity;
+                totalSold += store.transactionItem[j].quantity;
             }
         }
 
-        if(totalSold > 0 && totalSold < leastSoldQty)
+        if (totalSold > 0 &&
+            totalSold < leastSoldQty)
         {
             leastSoldQty = totalSold;
             leastSoldIndex = i;
@@ -95,4 +105,59 @@ int getLeastSoldProduct()
     }
 
     return leastSoldIndex;
+}
+
+int getMostSoldQuantity()
+{
+    int mostSoldQty = 0;
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        int totalSold = 0;
+
+        for (int j = 0; j < store.transactionCount; j++)
+        {
+            if (store.transactionItem[j].stockID == store.stockItem[i].stockID)
+            {
+                totalSold += store.transactionItem[j].quantity;
+            }
+        }
+
+        if (totalSold > mostSoldQty)
+        {
+            mostSoldQty = totalSold;
+        }
+    }
+
+    return mostSoldQty;
+}
+
+int getLeastSoldQuantity()
+{
+    int leastSoldQty = INT_MAX;
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        int totalSold = 0;
+
+        for (int j = 0; j < store.transactionCount; j++)
+        {
+            if (store.transactionItem[j].stockID == store.stockItem[i].stockID)
+            {
+                totalSold += store.transactionItem[j].quantity;
+            }
+        }
+
+        if (totalSold > 0 && totalSold < leastSoldQty)
+        {
+            leastSoldQty = totalSold;
+        }
+    }
+
+    if (leastSoldQty == INT_MAX)
+    {
+        return 0;
+    }
+
+    return leastSoldQty;
 }
