@@ -9,6 +9,8 @@ void allocateStock(Stock *item)
 
     item->onlineStock = (int)(item->quantity * ONLINE_RATIO);
     item->physicalStock = item->quantity - item->onlineStock; // important cannot use ration multiplication it may lost 1 item due to bug convert integer
+    item->onlineAlertPoint = (int)(item->onlineStock * 0.4);
+    item->physicalAlertPoint = (int)(item->physicalStock * 0.4);
 }
 void allocateAllStocks()
 {

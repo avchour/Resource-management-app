@@ -1,7 +1,7 @@
 #include "onlinePurchase.h"
 #include "product.h"
 #include "data.h"
-
+#include "alert.h"
 OnlinePurchaseResult purchaseOnline(
     int stockID,
     int quantity)
@@ -24,8 +24,11 @@ OnlinePurchaseResult purchaseOnline(
         return ONLINE_PURCHASE_OUT_OF_STOCK;
     }
 
-    store.stockItem[index].onlineStock -=
-        quantity;
-
+    store.stockItem[index].onlineStock -= quantity;
+    if (isOnlineAlert(stockID))
+    {
+        printf(
+            "WARNING: Online stock is low.\n");
+    }
     return ONLINE_PURCHASE_SUCCESS;
 }

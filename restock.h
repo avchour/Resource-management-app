@@ -2,27 +2,26 @@
 #ifndef RESTOCK_H
 #define RESTOCK_H
 int findRestockIndexByID(int orderID);
+int findRestockIndexByProductID(int stockID);
+int isOutOfStock(int stockID);
+int hasPendingRestockOrder(int stockID);
 typedef enum
 {
-    ADD_Restock_SUCCESS,
-    ADD_Restock_EMPTY_NAME,
-    ADD_Restock_INVALID_PRICE,
-    ADD_Restock_INVALID_QUANTITY,
-    ADD_Restock_DUPLICATE,
-    ADD_Restock_FULL,
-    ADD_Restock_EMPTY_CATEGORY
-} AddRestockResult;
-AddRestockResult addRestock(const char itemName[], float costprice, float sellingcost, int quantity, const char category[])
-{
-}
+    RESTOCK_SUCCESS,
+    RESTOCK_PRODUCT_NOT_FOUND,
+    RESTOCK_ORDER_NOT_FOUND,
+    RESTOCK_INVALID_QUANTITY,
+    RESTOCK_FULL,
+    RESTOCK_ALREADY_CONFIRMED
+} RestockResult;
+RestockResult createRestockOrder(int stockID, int quantity, RestockType type);
 
-int createRestockOrder(int stockID, int quantity, RestockType type);
+RestockResult editRestockQuantity(int orderID, int newQuantity);
 
-int editRestockQuantity(int orderID, int newQuantity);
+RestockResult updateDeliveryStatus(int orderID, DeliveryStatus status);
 
-int updateDeliveryStatus(int orderID, DeliveryStatus status);
+RestockResult confirmDelivery(int orderID);
 
-int confirmDelivery(int orderID);
+RestockResult cancelRestockOrder (int orderID);
 
-int cancelRestockOrder(int orderID);
 #endif
