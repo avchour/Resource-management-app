@@ -26,6 +26,8 @@ int findStockIndexByID(int stockID);
 
 int findStockIndexByName(const char itemName[]);
 
+int findStockCountByCategory(const char category[]);
+
 int removeProduct(int stockID);
 
 AddProductResult addProduct(const char itemName[], float costprice, float sellingcost, int quantity, char category[]);
