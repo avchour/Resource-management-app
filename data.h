@@ -32,7 +32,6 @@ typedef enum // for restock schedule 5day per restock; otherwise got request eme
 typedef enum // transport 3days to reach storage
 {
     DELIVERY_IN_TRANSIT,
-    DELIVERY_ARRIVED,
     DELIVERY_CONFIRMED
 } DeliveryStatus; // for restock request to supplier
 

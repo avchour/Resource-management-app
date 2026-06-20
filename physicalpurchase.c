@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
-
+#include <stdio.h>
 #include "physicalPurchase.h"
 #include "product.h"
 #include "data.h"
@@ -29,8 +29,7 @@ PhysicalPurchaseResult simulatePhysicalPurchase(int stockID)
     store.stockItem[index].physicalStock -= quantity;
     if (isPhysicalAlert(stockID))
     {
-        printf(
-            "WARNING: Physical stock is low.\n");
+        printf("WARNING: Physical stock is low.\n");
     }
 
     return PHYSICAL_PURCHASE_SUCCESS;

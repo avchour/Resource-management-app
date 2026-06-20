@@ -51,7 +51,7 @@ int editQuantity(int stockID, int newQuantity)
         return 0;
     }
 
-    if (newQuantity < 0)
+    if (newQuantity <= 0)
     {
         return 0;
     }
@@ -111,7 +111,7 @@ int editCostPrice(int stockID, float newCostPrice)
         return 0;
     }
 
-    if (newCostPrice < 0)
+    if (newCostPrice <= 0)
     {
         return 0;
     }
@@ -129,7 +129,7 @@ int editSellingPrice(int stockID, float newSellingPrice)
         return 0;
     }
 
-    if (newSellingPrice < 0)
+    if (newSellingPrice <= 0)
     {
         return 0;
     }
@@ -145,11 +145,11 @@ AddProductResult addProduct(const char itemName[], float costprice, float sellin
     {
         return ADD_PRODUCT_EMPTY_NAME;
     }
-    if (costprice < 0 || sellingcost < 0)
+    if (costprice <= 0 || sellingcost <= 0)
     {
         return ADD_PRODUCT_INVALID_PRICE;
     }
-    if (quantity < 0)
+    if (quantity <= 0)
     {
         return ADD_PRODUCT_INVALID_QUANTITY;
     }
@@ -182,9 +182,7 @@ AddProductResult addProduct(const char itemName[], float costprice, float sellin
 
     productItem->quantity = quantity;
 
-    productItem->onlineStock = 0;
-    productItem->physicalStock = 0;
-
+    allocateStock(productItem);
     /*
          Configure these later.
      */

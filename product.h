@@ -14,7 +14,7 @@ typedef enum
 } AddProductResult;
 int editProductName(int stockID, const char newName[]);
 
-int editProductCategory(int stockID, const char newCategory[]);
+int editCategory(int stockID, const char newCategory[]);
 
 int editCostPrice(int stockID, float newCostPrice);
 

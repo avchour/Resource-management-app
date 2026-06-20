@@ -2,12 +2,12 @@
 #include "product.h"
 #include "data.h"
 #include "alert.h"
+#include <stdio.h>
 OnlinePurchaseResult purchaseOnline(
     int stockID,
     int quantity)
 {
-    int index =
-        findStockIndexByID(stockID);
+    int index =findStockIndexByID(stockID);
 
     if (index == -1) // connect with func findstockid not found return -1
     {
@@ -27,8 +27,7 @@ OnlinePurchaseResult purchaseOnline(
     store.stockItem[index].onlineStock -= quantity;
     if (isOnlineAlert(stockID))
     {
-        printf(
-            "WARNING: Online stock is low.\n");
+        printf("WARNING: Online stock is low.\n");
     }
     return ONLINE_PURCHASE_SUCCESS;
 }
