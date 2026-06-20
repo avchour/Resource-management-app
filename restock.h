@@ -5,6 +5,7 @@ int findRestockIndexByID(int orderID);
 int findRestockIndexByProductID(int stockID);
 int isOutOfStock(int stockID);
 int hasPendingRestockOrder(int stockID);
+int canRestock(int stockID);
 typedef enum
 {
     RESTOCK_SUCCESS,
@@ -12,6 +13,7 @@ typedef enum
     RESTOCK_ORDER_NOT_FOUND,
     RESTOCK_INVALID_QUANTITY,
     RESTOCK_FULL,
+    RESTOCK_EXISTS,
     RESTOCK_ALREADY_CONFIRMED
 } RestockResult;
 RestockResult createRestockOrder(int stockID, int quantity, RestockType type);

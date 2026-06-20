@@ -54,6 +54,10 @@ RestockResult createRestockOrder(int stockID, int quantity, RestockType type)
     {
         return RESTOCK_PRODUCT_NOT_FOUND;
     }
+    if (hasPendingRestockOrder(stockID))
+    {
+        return RESTOCK_EXISTS;
+    }
 
     if (quantity <= 0)
     {
