@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "data.h"
 #include "product.h"
+#include "display1st.h"
 
 void display_login()
 {
@@ -315,11 +316,10 @@ void viewoutofstockitems()
 
 // checked
 
-/*
 void viewPendingRestockOrders()
 {
     printf("\n====================================\n");
-    printf("           PENDING RESTOCK \n");
+    printf("        PENDING RESTOCK ORDERS\n");
     printf("====================================\n");
 
     int found = 0;
@@ -332,25 +332,21 @@ void viewPendingRestockOrders()
         {
             if (found == 0)
             {
-                printf("%-8s %-8s %-10s %-10s %-6s %-20s %-20s\n",
-                       "OrderID", "ProdID", "Type", "Status",
-                       "Qty", "Requested At", "Expected At");
-                printf("------------------------------------"
-                       "------------------------------------\n");
+                printf("%-8s %-8s %-12s %-6s %-12s %-12s\n",
+                       "OrderID", "ProdID", "Type", "Qty", "Requested", "Expected");
+                printf("------------------------------------------------------------\n");
             }
 
-            // Format requestedAt
-            char reqBuf[20], expBuf[20];
+            char reqBuf[12], expBuf[12];
             struct tm *tmReq = localtime(&o->requestedAt);
             struct tm *tmExp = localtime(&o->expectedArrivalAt);
             strftime(reqBuf, sizeof(reqBuf), "%Y-%m-%d", tmReq);
             strftime(expBuf, sizeof(expBuf), "%Y-%m-%d", tmExp);
 
-            printf("%-8ld %-8d %-10s %-10s %-6d %-20s %-20s\n",
+            printf("%-8ld %-8d %-12s %-6d %-12s %-12s\n",
                    o->orderId,
                    o->productId,
                    o->type == RESTOCK_EMERGENCY ? "EMERGENCY" : "NORMAL",
-                   "IN TRANSIT",
                    o->quantity,
                    reqBuf,
                    expBuf);
@@ -362,17 +358,14 @@ void viewPendingRestockOrders()
     if (found == 0)
         printf("No pending restock orders.\n");
     else
-        printf("------------------------------------\n");
+        printf("------------------------------------------------------------\n");
 
     printf("Total pending orders: %d\n", found);
 
-    // code to view pending restock orders and date
+    // code to view pending restock orders and their expected arrival dates
     // exit to adminMode_second
 }
 
-*/
-
-/*
 void calculatedaily_monthlysalesReport()
 {
     if (store.transactionCount == 0)
@@ -381,22 +374,21 @@ void calculatedaily_monthlysalesReport()
         return;
     }
 
-    // Ask user which report they want
     int choice;
     printf("\n====================================\n");
-    printf("          SALES REPORT\n");
+    printf("           SALES REPORT\n");
     printf("====================================\n");
     printf("1. Daily report\n");
     printf("2. Monthly report\n");
     printf("Enter choice: ");
     scanf("%d", &choice);
-    printf("\n");
 
     time_t now = time(NULL);
     struct tm *tmNow = localtime(&now);
 
-    float financeReport = 0.0f;
-    int totalQty = 0;
+    float totalRevenue = 0.0f;
+    float totalCost = 0.0f;
+    int totalUnits = 0;
     int txCount = 0;
 
     for (int i = 0; i < store.transactionCount; i++)
@@ -405,25 +397,22 @@ void calculatedaily_monthlysalesReport()
         struct tm *tmTx = localtime(&t->transactionDate);
 
         int match = 0;
-
         if (choice == 1)
-        {
-            // Same calendar day
             match = (tmTx->tm_year == tmNow->tm_year &&
                      tmTx->tm_yday == tmNow->tm_yday);
-        }
         else if (choice == 2)
-        {
-            // Same month and year
             match = (tmTx->tm_year == tmNow->tm_year &&
                      tmTx->tm_mon == tmNow->tm_mon);
-        }
 
         if (match)
         {
-            financeReport += t->totalAmount;
-            totalQty += t->quantity;
+            totalRevenue += t->totalAmount;
+            totalUnits += t->quantity;
             txCount++;
+
+            int idx = findStockIndexByID(t->stockID);
+            if (idx != -1)
+                totalCost += store.stockItem[idx].costprice * t->quantity;
         }
     }
 
@@ -431,50 +420,26 @@ void calculatedaily_monthlysalesReport()
     {
         char dateBuf[20];
         strftime(dateBuf, sizeof(dateBuf), "%Y-%m-%d", tmNow);
-        printf("Daily Sales Report — %s\n", dateBuf);
+        printf("\nDaily Sales Report - %s\n", dateBuf);
     }
     else
     {
         char monthBuf[20];
         strftime(monthBuf, sizeof(monthBuf), "%B %Y", tmNow);
-        printf("Monthly Sales Report — %s\n", monthBuf);
+        printf("\nMonthly Sales Report - %s\n", monthBuf);
     }
 
     printf("------------------------------------\n");
     printf("Transactions  : %d\n", txCount);
-    printf("Units sold    : %d\n", totalQty);
-    printf("Total revenue : $%.2f\n", financeReport);
-
-    // Cost calculation for profit estimate
-    float totalCost = 0.0f;
-    for (int i = 0; i < store.transactionCount; i++)
-    {
-        Transaction *t = &store.transactionItem[i];
-        struct tm *tmTx = localtime(&t->transactionDate);
-
-        int match = 0;
-        if (choice == 1)
-            match = (tmTx->tm_year == tmNow->tm_year &&
-                     tmTx->tm_yday == tmNow->tm_yday);
-        else
-            match = (tmTx->tm_year == tmNow->tm_year &&
-                     tmTx->tm_mon == tmNow->tm_mon);
-
-        if (match)
-        {
-            int idx = findStockIndexByID(t->stockID);
-            if (idx != -1)
-                totalCost += store.stockItem[idx].costprice * t->quantity;
-        }
-    }
-
+    printf("Units sold    : %d\n", totalUnits);
+    printf("Total revenue : $%.2f\n", totalRevenue);
     printf("Estimated cost: $%.2f\n", totalCost);
-    printf("Gross profit  : $%.2f\n", financeReport - totalCost);
+    printf("Gross profit  : $%.2f\n", totalRevenue - totalCost);
     printf("====================================\n");
-    // code to calculate daily and monthly sales reports
+
+    // code to calculate daily and monthly sales report
     // exit to adminMode_second
 }
-*/
 
 //----------------------------------------------------------------------------------------------------------------------------
 
@@ -621,7 +586,7 @@ void displayhotdealitems()
     // code to display hot deal items
     // exit to customerMode
 }
-/*
+
 void calculating_system()
 {
     int stockID;
@@ -637,9 +602,7 @@ void calculating_system()
         return;
     }
 
-    // find the item using stockID
     int index = findStockIndexByID(stockID);
-
     if (index == -1)
     {
         printf("Item not found.\n");
@@ -648,49 +611,69 @@ void calculating_system()
 
     Stock *s = &store.stockItem[index];
 
-    printf("Enter quantity: ");
-    scanf("%d", &quantity);
+    int channel;
+    printf("Purchase via:\n");
+    printf("1. Physical store (available: %d)\n", s->physicalStock);
+    printf("2. Online         (available: %d)\n", s->onlineStock);
+    printf("Enter choice: ");
+    scanf("%d", &channel);
 
-    if (quantity <= 0)
+    if (channel == 1)
     {
-        printf("Invalid quantity.\n");
-        return;
+        PhysicalPurchaseResult res = simulatePhysicalPurchase(stockID);
+
+        switch (res)
+        {
+        case PHYSICAL_PURCHASE_SUCCESS:
+            printf("Purchase successful!\n");
+            break;
+        case PHYSICAL_PURCHASE_OUT_OF_STOCK:
+            printf("Sorry, out of stock in physical store.\n");
+            return;
+        case PHYSICAL_PURCHASE_PRODUCT_NOT_FOUND:
+            printf("Item not found.\n");
+            return;
+        }
+    }
+    else if (channel == 2)
+    {
+        printf("Enter quantity: ");
+        scanf("%d", &quantity);
+
+        OnlinePurchaseResult res = purchaseOnline(stockID, quantity);
+
+        switch (res)
+        {
+        case ONLINE_PURCHASE_SUCCESS:
+            break;
+        case ONLINE_PURCHASE_PRODUCT_NOT_FOUND:
+            printf("Item not found.\n");
+            return;
+        case ONLINE_PURCHASE_INVALID_QUANTITY:
+            printf("Invalid quantity.\n");
+            return;
+        case ONLINE_PURCHASE_OUT_OF_STOCK:
+            printf("Not enough online stock. Available: %d\n", s->onlineStock);
+            return;
+        }
+
+        printf("\n====================================\n");
+        printf("             RECEIPT\n");
+        printf("====================================\n");
+        printf("Item     : %s\n", s->itemName);
+        printf("Quantity : %d\n", quantity);
+        printf("Price    : %.2f each\n", s->sellingcost);
+        printf("Total    : %.2f\n", s->sellingcost * quantity);
+        printf("====================================\n");
+    }
+    else
+    {
+        printf("Invalid choice.\n");
     }
 
-    if (s->physicalStock < quantity)
-    {
-        printf("Not enough stock. Only %d left.\n", s->physicalStock);
-        return;
-    }
-
-    // calculate total price
-    float total = s->sellingcost * quantity;
-
-    // deduct stock
-    s->physicalStock -= quantity;
-    s->quantity -= quantity;
-
-    // record the transaction
-    Transaction *t = &store.transactionItem[store.transactionCount];
-    t->transactionId = store.transactionCount + 1;
-    t->stockID       = s->stockID;
-    t->quantity      = quantity;
-    t->totalAmount   = total;
-    t->transactionDate = time(NULL);
-    store.transactionCount++;
-
-    // show receipt
-    printf("\n====================================\n");
-    printf("             RECEIPT\n");
-    printf("====================================\n");
-    printf("Item     : %s\n", s->itemName);
-    printf("Quantity : %d\n", quantity);
-    printf("Price    : %.2f each\n", s->sellingcost);
-    printf("Total    : %.2f\n", total);
-    printf("====================================\n");
-
+    // code to handle the purchase process, including checking stock availability and updating stock levels
+    // exit to customerMode
 }
-*/
 
 //------------------------------------------------------------------------------------------------------------------
 
