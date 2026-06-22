@@ -122,7 +122,7 @@ void adminMode_first()
         printf("Enter quantity: \n");
         scanf("%d", &quantity);
         printf("Enter category (F)ood (D)rinks (S)nacks: \n");
-        scanf("%s", &category);
+        scanf("%s", category);
 
         AddProductResult(addProduct(item_name, in_price, out_price, quantity, category)); // check if it invalid input or duplicate item name or full inventory
         // add something

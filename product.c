@@ -139,7 +139,7 @@ int editSellingPrice(int stockID, float newSellingPrice)
     return 1;
 }
 
-AddProductResult addProduct(const char itemName[], float costprice, float sellingcost, int quantity, const char category[])
+AddProductResult addProduct(const char* itemName, float costprice, float sellingcost, int quantity, const char* category)
 {
     if (itemName == NULL || itemName[0] == '\0')
     {

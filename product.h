@@ -30,6 +30,6 @@ int findStockCountByCategory(const char category[]);
 
 int removeProduct(int stockID);
 
-AddProductResult addProduct(const char itemName[], float costprice, float sellingcost, int quantity, char category[]);
+AddProductResult addProduct(const char *itemName, float costprice, float sellingcost, int quantity, const char *category);
 
 #endif

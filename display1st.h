@@ -1,6 +1,5 @@
 #ifndef display1st
 #define display1st
-#include <stdbool.h>
 #include "data.h"
 #include "product.h"
 #include "display1st.h"
