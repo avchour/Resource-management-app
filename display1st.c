@@ -6,6 +6,7 @@
 #include "display1st.h"
 #include "onlinePurchase.h"
 #include "physicalPurchase.h"
+#include "restock.h"
 
 void display_login()
 {
@@ -126,7 +127,7 @@ void adminMode_first()
         printf("Enter category (F)ood (D)rinks (S)nacks: \n");
         scanf("%s", category);
 
-        AddProductResult(addProduct(item_name, in_price, out_price, quantity, category)); // check if it invalid input or duplicate item name or full inventory
+        AddProductResult result = addProduct(item_name, in_price, out_price, quantity, category); // check if it invalid input or duplicate item name or full inventory
         // add something
         printf("Do you want to add another item? (y/n): ");
         char choice;
