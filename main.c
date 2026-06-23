@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include "display1st.h"
 #include "alert.h"
@@ -9,6 +8,4 @@
 int main()
 {
     display_login();
-
-    r
 }
