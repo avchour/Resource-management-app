@@ -165,7 +165,7 @@ void adminMode_first()
             break;
 
         case ADD_PRODUCT_INVALID_CATEGORY:
-            printf("Error: Category must be F, D or S.\n");
+            printf("\nError: Category must be F, D or S.\n");
             break;
 
         case ADD_PRODUCT_DUPLICATE:
