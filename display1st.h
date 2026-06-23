@@ -5,27 +5,27 @@
 #include "display1st.h"
 
 /* Login & role selection */
-void display_login(void);
-void admin_identification(void);
-void choosemode(void);
+void display_login();
+void admin_identification();
+void choosemode();
 
 /* Admin modules */
-void adminMode_first(void);
-void adminMode_second(void);
+void adminMode_first();
+void adminMode_second();
 
 /* Inventory display functions */
-void displayallitems(void);
-void viewlowstockitems(void);
-void viewoutofstockitems(void);
-void viewPendingRestockOrders(void);
-void calculatedaily_monthlysalesReport(void);
+void displayallitems();
+void viewlowstockitems();
+void viewoutofstockitems();
+void viewPendingRestockOrders();
+void calculatedaily_monthlysalesReport();
 
 /* Customer system */
-void customerMode(void);
-void displayfooditems(void);
-void displaydrinkitems(void);
-void displaysnackitems(void);
-void displayhotdealitems(void);
-void calculating_system(void);
+void customerMode();
+void displayfooditems();
+void displaydrinkitems();
+void displaysnackitems();
+void displayhotdealitems();
+void calculating_system();
 
 #endif
