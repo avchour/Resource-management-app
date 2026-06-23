@@ -23,3 +23,22 @@ int getIntInput(const char *prompt)
             ;
     }
 }
+float getFloatInput(const char *prompt)
+{
+    float value;
+
+    while (1)
+    {
+        printf("%s", prompt);
+
+        if (scanf("%f", &value) == 1)
+        {
+            while (getchar() != '\n');
+            return value;
+        }
+
+        printf("Invalid input! Please enter a number.\n");
+
+        while (getchar() != '\n');
+    }
+}

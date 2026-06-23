@@ -8,7 +8,6 @@
 #include "onlinePurchase.h"
 #include "physicalPurchase.h"
 #include "restock.h"
-
 #include "utils.h"
 
 void display_login()
@@ -90,10 +89,11 @@ void choosemode()
     int allmode;
     printf("\n===============MODE===============\n");
     printf("------------------------------------\n");
-    printf("First mode: Add items to inventory\n");
-    printf("Second mode: Check inventory\n");
+    printf("1. Add items to inventory\n");
+    printf("2. Check inventory\n");
+    printf("3.Exit\n");
 
-    allmode = getIntInput("Enter mode (1 for first mode, 2 for second mode or 3 to exit): ");
+    allmode = getIntInput("Enter your choice: ");
 
     switch (allmode)
     {
@@ -122,35 +122,80 @@ void adminMode_first()
     char category[20];
     bool admin_mode1_running = true;
 
-    // design the admin mode if not gui
-    // ask admin to input the item name, in price, out price, and quantity
     while (admin_mode1_running)
     {
-        getchar();
-        printf("Enter item name: \n");
+        printf("Enter item's name: ");
         fgets(item_name, sizeof(item_name), stdin);
-        printf("Enter in price: \n");
-        scanf("%f", &in_price);
-        printf("Enter out price: \n");
-        scanf("%f", &out_price);
-        printf("Enter quantity: \n");
-        scanf("%d", &quantity);
-        printf("Enter category (F)ood (D)rinks (S)nacks: \n");
-        scanf("%s", category);
+        item_name[strcspn(item_name, "\n")] = '\0';
+        in_price = getFloatInput("Enter cost expense: ");
+        out_price = getFloatInput("Enter selling price: ");
+        quantity = getIntInput("Enter item's quantity: ");
+        printf("Choose category : (F)ood (D)rinks (S)nacks: ");
+        scanf("%1s", category);
+        while (getchar() != '\n')
+            ;
 
-        AddProductResult result = addProduct(item_name, in_price, out_price, quantity, category); // check if it invalid input or duplicate item name or full inventory
-        // add something
-        printf("Do you want to add another item? (y/n): ");
+        AddProductResult result =
+            addProduct(item_name,
+                       in_price,
+                       out_price,
+                       quantity,
+                       category);
+
+        switch (result)
+        {
+        case ADD_PRODUCT_SUCCESS:
+            printf("Product added successfully.\n");
+            break;
+
+        case ADD_PRODUCT_EMPTY_NAME:
+            printf("Error: Empty product name.\n");
+            break;
+
+        case ADD_PRODUCT_INVALID_PRICE:
+            printf("Error: Invalid price.\n");
+            break;
+
+        case ADD_PRODUCT_INVALID_QUANTITY:
+            printf("Error: Invalid quantity.\n");
+            break;
+
+        case ADD_PRODUCT_EMPTY_CATEGORY:
+            printf("Error: Empty category.\n");
+            break;
+
+        case ADD_PRODUCT_INVALID_CATEGORY:
+            printf("Error: Category must be F, D or S.\n");
+            break;
+
+        case ADD_PRODUCT_DUPLICATE:
+            printf("Error: Product already exists.\n");
+            break;
+
+        case ADD_PRODUCT_FULL:
+            printf("Error: Storage is full.\n");
+            break;
+        }
+
         char choice;
-        scanf(" %c", &choice);
+
+        do
+        {
+            printf("Do you want to add another item? (y/n): ");
+            scanf(" %c", &choice);
+            while (getchar() != '\n')
+                ;
+        } while (choice != 'y' && choice != 'Y' &&
+                 choice != 'n' && choice != 'N');
+
         if (choice == 'n' || choice == 'N')
         {
             admin_mode1_running = false;
         }
     }
+
     choosemode();
 }
-
 void adminMode_second()
 {
     bool admin_mode2_running = true;
@@ -593,11 +638,3 @@ void calculating_system(int stockID, int quantity)
     t->transactionDate = time(NULL);
     store.transactionCount++;
 }
-
-// //------------------------------------------------------------------------------------------------------------------
-
-// int main()
-// {
-//     display_login();
-//     return 0;
-// }
