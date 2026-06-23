@@ -2,11 +2,14 @@
 #include <string.h>
 #include <stdbool.h>
 #include "data.h"
+#include "report.h"
 #include "product.h"
 #include "display1st.h"
 #include "onlinePurchase.h"
 #include "physicalPurchase.h"
 #include "restock.h"
+
+#include "utils.h"
 
 void display_login()
 {
@@ -22,9 +25,8 @@ void display_login()
         printf("1. Login as Customer\n");
         printf("2. Login as Admin\n");
         printf("------------------------------------\n");
-        printf("Enter your choice: ");
 
-        scanf("%d", &loging_in);
+        loging_in = getIntInput("Enter your choice: ");
 
         switch (loging_in)
         {
@@ -44,33 +46,41 @@ void display_login()
 
 void admin_identification()
 {
+
     char admin_username[20];
     char admin_password[18];
     // design the admin login system
     printf("Enter admin username: ");
     fgets(admin_username, sizeof(admin_username), stdin);
+    // admin_username[strcspn(admin_username, "\n")] = '\0'; // remove newline character from username
     printf("Enter the password: ");
+    // admin_password[strcspn(admin_password, "\n")] = '\0'; // remove newline character from password
     fgets(admin_password, sizeof(admin_password), stdin);
-    if (strcmp(admin_username, "admin") == 0 && strcmp(admin_password, "password123") == 0)
-    {
-        printf("Login successful!\n");
-        choosemode();
-    }
-    else
-    {
-        printf("Invalid username or password. Access denied.\n");
-        printf("Login again or Exit to main menu \n");
-        // ask user to input again or exit to main menu
-        char returnToMainChoice;
-        printf("Do you want to try login again? (y/n): ");
-        scanf(" %c", &returnToMainChoice);
-        if (returnToMainChoice == 'n' || returnToMainChoice == 'N')
-            display_login();
-        else
-        {
-            admin_identification();
-        }
-    }
+
+    // if (strcmp(admin_username, "admin") == 0 && strcmp(admin_password, "password123") == 0)
+
+    // if (test == 1)
+
+    // {
+    printf("Login successful!\n");
+    choosemode();
+    // }
+    // else
+    // {
+    //     printf("Invalid username or password. Access denied.\n");
+    //     printf("Login again or Exit to main menu \n");
+    //     // ask user to input again or exit to main menu
+    //     char returnToMainChoice;
+    //     printf("Do you want to try login again? (y/n): ");
+
+    //     scanf(" %c", &returnToMainChoice);
+    //     if (returnToMainChoice == 'n' || returnToMainChoice == 'N')
+    //         display_login();
+    //     else
+    //     {
+    //         admin_identification();
+    //     }
+    // }
 
     // if (admin_password matched ) ---> admin mode
 }
@@ -82,8 +92,8 @@ void choosemode()
     printf("------------------------------------\n");
     printf("First mode: Add items to inventory\n");
     printf("Second mode: Check inventory\n");
-    printf("Enter mode (1 for first mode, 2 for second mode or 3 to exit): ");
-    scanf("%d", &allmode);
+
+    allmode = getIntInput("Enter mode (1 for first mode, 2 for second mode or 3 to exit): ");
 
     switch (allmode)
     {
@@ -116,6 +126,7 @@ void adminMode_first()
     // ask admin to input the item name, in price, out price, and quantity
     while (admin_mode1_running)
     {
+        getchar();
         printf("Enter item name: \n");
         fgets(item_name, sizeof(item_name), stdin);
         printf("Enter in price: \n");
@@ -583,10 +594,10 @@ void calculating_system(int stockID, int quantity)
     store.transactionCount++;
 }
 
-//------------------------------------------------------------------------------------------------------------------
+// //------------------------------------------------------------------------------------------------------------------
 
-int main()
-{
-    display_login();
-    return 0;
-}
+// int main()
+// {
+//     display_login();
+//     return 0;
+// }

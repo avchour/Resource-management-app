@@ -26,6 +26,6 @@ void displayfooditems();
 void displaydrinkitems();
 void displaysnackitems();
 void displayhotdealitems();
-void calculating_system();
+void calculating_system(int stockID, int quantity);
 
 #endif
