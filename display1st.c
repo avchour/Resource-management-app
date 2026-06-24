@@ -10,6 +10,8 @@
 #include "restock.h"
 #include "utils.h"
 
+void calculating_system(int stockID, int quantity);
+
 void display_login()
 {
     bool login_running = true;
@@ -267,7 +269,8 @@ void displayallitems()
             printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
                    mystock->stockID,
                    mystock->itemName,
-                   mystock->category,
+                   *mystock->category == 'F' ? "Food" : *mystock->category == 'D' ? "Drink"
+                                                                                  : "Snack",
                    mystock->costprice,
                    mystock->sellingcost,
                    mystock->onlineStock,
