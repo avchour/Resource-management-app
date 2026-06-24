@@ -305,7 +305,7 @@ void viewlowstockitems()
                 printf("----------------------------------------------------------------");
             }
 
-            printf("%-6d %-20s %-10s %-8d\n", mystock->stockID, mystock->itemName, mystock->quantity, mystock->onlineStock);
+            printf("%-6d %-20s %-10d %-8d\n", mystock->stockID, mystock->itemName, mystock->quantity, mystock->onlineStock);
             found++;
         }
 
@@ -349,7 +349,7 @@ void viewoutofstockitems()
     {
         Stock *mystock = &store.stockItem[i];
 
-        if (mystock->quantity > 0 && mystock->onlineStock <= 0 && mystock->physicalStock <= 0)
+        if (mystock->onlineStock <= 0 && mystock->physicalStock <= 0)
         {
             if (found == 0)
             {
@@ -521,8 +521,13 @@ void displayfooditems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    purchaseOnline(stockID, quantity);
-    calculating_system(stockID, quantity);
+    OnlinePurchaseResult result =
+        purchaseOnline(stockID, quantity);
+
+    if (result == ONLINE_PURCHASE_SUCCESS)
+    {
+        calculating_system(stockID, quantity);
+    }
 }
 
 void displaydrinkitems()
@@ -546,9 +551,13 @@ void displaydrinkitems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    purchaseOnline(stockID, quantity);
-    calculating_system(stockID, quantity);
+    OnlinePurchaseResult result =
+        purchaseOnline(stockID, quantity);
 
+    if (result == ONLINE_PURCHASE_SUCCESS)
+    {
+        calculating_system(stockID, quantity);
+    }
     // code to display drink items
     // exit to customerMode
 }
@@ -574,8 +583,13 @@ void displaysnackitems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    purchaseOnline(stockID, quantity);
-    calculating_system(stockID, quantity);
+    OnlinePurchaseResult result =
+        purchaseOnline(stockID, quantity);
+
+    if (result == ONLINE_PURCHASE_SUCCESS)
+    {
+        calculating_system(stockID, quantity);
+    }
 
     // code to display snack items
     // exit to customerMode
@@ -615,8 +629,13 @@ void displayhotdealitems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    purchaseOnline(stockID, quantity);
-    calculating_system(stockID, quantity);
+    OnlinePurchaseResult result =
+        purchaseOnline(stockID, quantity);
+
+    if (result == ONLINE_PURCHASE_SUCCESS)
+    {
+        calculating_system(stockID, quantity);
+    }
 
     // code to display hot deal items
     // exit to customerMode

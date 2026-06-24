@@ -25,6 +25,7 @@ OnlinePurchaseResult purchaseOnline(
     }
 
     store.stockItem[index].onlineStock -= quantity;
+    store.stockItem[index].quantity -= quantity;
     if (isOnlineAlert(stockID))
     {
         printf("WARNING: Online stock is low.\n");
