@@ -66,8 +66,7 @@ void displayallitems()
             printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
                    mystock->stockID,
                    mystock->itemName,
-                   *mystock->category == 'F' ? "Food" : *mystock->category == 'D' ? "Drink"
-                                                                                  : "Snack",
+                   *mystock->category == 'F' ? "Food" : *mystock->category == 'D' ? "Drink" : "Snack",
                    mystock->costprice,
                    mystock->sellingcost,
                    mystock->onlineStock,
