@@ -2,7 +2,6 @@
 #ifndef RESTOCK_H
 #define RESTOCK_H
 int findRestockIndexByID(int orderID);
-int findRestockIndexByProductID(int stockID);
 int isOutOfStock(int stockID);
 int hasPendingRestockOrder(int stockID);
 int canRestock(int stockID);

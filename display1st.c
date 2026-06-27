@@ -66,7 +66,8 @@ void displayallitems()
             printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
                    mystock->stockID,
                    mystock->itemName,
-                   *mystock->category == 'F' ? "Food" : *mystock->category == 'D' ? "Drink" : "Snack",
+                   *mystock->category == 'F' || 'f' ? "Food" : *mystock->category == 'D' || 'd' ? "Drink"
+                                                                                                : "Snack",
                    mystock->costprice,
                    mystock->sellingcost,
                    mystock->onlineStock,
@@ -269,8 +270,8 @@ void customerMode() // should be added exit mode
         printf("4. Hot deal\n");
         printf("5. Exit\n");
         printf("------------------------------------\n");
-        printf("Enter your choice: ");
-        scanf("%d", &customer_choice);
+
+        customer_choice = getIntInput ("Enter your choice: ");
 
         switch (customer_choice)
         {
@@ -320,8 +321,7 @@ void displayfooditems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    OnlinePurchaseResult result =
-        purchaseOnline(stockID, quantity);
+    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
 
     if (result == ONLINE_PURCHASE_SUCCESS)
     {
@@ -350,8 +350,7 @@ void displaydrinkitems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    OnlinePurchaseResult result =
-        purchaseOnline(stockID, quantity);
+    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
 
     if (result == ONLINE_PURCHASE_SUCCESS)
     {
@@ -382,8 +381,7 @@ void displaysnackitems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    OnlinePurchaseResult result =
-        purchaseOnline(stockID, quantity);
+    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
 
     if (result == ONLINE_PURCHASE_SUCCESS)
     {
@@ -428,8 +426,7 @@ void displayhotdealitems()
     printf("Enter quantity: ");
     scanf("%d", &quantity);
 
-    OnlinePurchaseResult result =
-        purchaseOnline(stockID, quantity);
+    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
 
     if (result == ONLINE_PURCHASE_SUCCESS)
     {

@@ -167,10 +167,6 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
     productItem->quantity = quantity;
 
     allocateStock(productItem);
-    /*
-         Configure these later.
-     */
-    productItem->safetyStock = 0;
 
     productItem->onlineAlertPoint = 0;
     productItem->physicalAlertPoint = 0;

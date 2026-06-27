@@ -15,17 +15,6 @@ int findRestockIndexByID(int orderID)
     }
     return -1;
 }
-int findRestockIndexByProductID(int stockID)
-{
-    for (int i = 0; i < store.restockOrderCount; i++)
-    {
-        if (store.restockOrderItem[i].stockID == stockID)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
 
 RestockResult cancelRestockOrder(int orderID)
 {
@@ -129,7 +118,7 @@ RestockResult editRestockQuantity(int orderID, int newQuantity)
     store.restockOrderItem[index].quantity = newQuantity;
 
     return RESTOCK_SUCCESS;
-}
+} // fix
 RestockResult confirmDelivery(int orderID)
 {
     int orderIndex = findRestockIndexByID(orderID);

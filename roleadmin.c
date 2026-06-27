@@ -128,7 +128,8 @@ void adminMode_first() // error
         while (1)
         {
             quantity = getIntInput("Enter item's quantity: ");
-            if (quantity <= 0){
+            if (quantity <= 0)
+            {
                 printf("enter quantuty again!");
                 continue;
             }
@@ -203,8 +204,9 @@ void adminMode_second()
         printf("5. calculate daily and monthly sales report\n");
         printf("6. Exit\n");
         printf("------------------------------------\n");
-        printf("Enter your choice: ");
+
         admin_choice = getIntInput("Enter your choice: ");
+
         switch (admin_choice)
         {
         case 1:
