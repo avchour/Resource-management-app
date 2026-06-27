@@ -108,6 +108,7 @@ void adminMode_first() // error
             in_price = getFloatInput("Enter cost expense: ");
             if (in_price < 0)
             {
+                printf("Enter cost expense again!");
                 continue;
             }
             break;
@@ -118,73 +119,74 @@ void adminMode_first() // error
             out_price = getFloatInput("Enter selling price: ");
             if (out_price < 0)
             {
+                printf("Enter selling price again");
                 continue;
             }
             break;
         }
 
         while (1)
-            quantity = getIntInput("Enter item's quantity: ");
-        if (quantity <= 0)
         {
-            continue;
-        }
-        break;
-    }
-
-    while (1)
-    {
-        printf("Choose category : (F)ood (D)rinks (S)nacks: ");
-        scanf("%1s", category);
-        while (getchar() != '\n')
-            ;
-
-        char c = toupper(category[0]);
-        if (c == 'F' || c == 'D' || c == 'S')
+            quantity = getIntInput("Enter item's quantity: ");
+            if (quantity <= 0){
+                printf("enter quantuty again!");
+                continue;
+            }
             break;
-        printf("Error: Category must be F, D or S.\n");
+        }
+
+        while (1)
+        {
+            printf("Choose category : (F)ood (D)rinks (S)nacks: ");
+            scanf("%1s", category);
+            while (getchar() != '\n')
+                ;
+
+            char c = toupper(category[0]);
+            if (c == 'F' || c == 'D' || c == 'S')
+                break;
+            printf("Error: Category must be F, D or S.\n");
+        }
+        // point
+        AddProductResult result =
+            addProduct(item_name,
+                       in_price,
+                       out_price,
+                       quantity,
+                       category);
+
+        switch (result)
+        {
+        case ADD_PRODUCT_SUCCESS:
+            printf("Product added successfully.\n");
+            break;
+
+        case ADD_PRODUCT_DUPLICATE:
+            printf("Error: Product already exists.\n");
+            break;
+
+        case ADD_PRODUCT_FULL:
+            printf("Error: Storage is full.\n");
+            break;
+        }
+
+        char choice;
+        do
+        {
+            printf("Do you want to add another item? (y/n): ");
+            scanf(" %c", &choice);
+            while (getchar() != '\n')
+                ;
+        } while (choice != 'y' && choice != 'Y' &&
+                 choice != 'n' && choice != 'N');
+
+        if (choice == 'n' || choice == 'N')
+        {
+            choosemode();
+        }
+        adminMode_first();
     }
-    // poin
-    AddProductResult result =
-        addProduct(item_name,
-                   in_price,
-                   out_price,
-                   quantity,
-                   category);
-
-    switch (result)
-    {
-    case ADD_PRODUCT_SUCCESS:
-        printf("Product added successfully.\n");
-        break;
-
-    case ADD_PRODUCT_DUPLICATE:
-        printf("Error: Product already exists.\n");
-        break;
-
-    case ADD_PRODUCT_FULL:
-        printf("Error: Storage is full.\n");
-        break;
-    }
-
-    char choice;
-
-    do
-    {
-        printf("Do you want to add another item? (y/n): ");
-        scanf(" %c", &choice);
-        while (getchar() != '\n')
-            ;
-    } while (choice != 'y' && choice != 'Y' &&
-             choice != 'n' && choice != 'N');
-
-    if (choice == 'n' || choice == 'N')
-    {
-        admin_mode1_running = false;
-    }
-    choosemode();
 }
-
 void adminMode_second()
 {
     bool admin_mode2_running = true;
