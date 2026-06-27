@@ -2,7 +2,18 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <ctype.h>
+#include <string.h>
 
+void rtrim(char *str)
+{
+    int len = strlen(str);
+
+    while (len > 0 && isspace((unsigned char)str[len - 1]))
+    {
+        str[--len] = '\0';
+    }
+}
 int getIntInput(const char *prompt)
 {
     int value;
@@ -24,6 +35,7 @@ int getIntInput(const char *prompt)
             ;
     }
 }
+
 float getFloatInput(const char *prompt)
 {
     float value;

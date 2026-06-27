@@ -139,20 +139,9 @@ int editSellingPrice(int stockID, float newSellingPrice)
     return 1;
 }
 
-AddProductResult addProduct(const char *itemName, float costprice, float sellingcost, int quantity, const char *category)
+AddProductResult addProduct(char *itemName, float costprice, float sellingcost, int quantity, char *category)
 {
-    if (itemName == NULL || itemName[0] == '\0')
-    {
-        return ADD_PRODUCT_EMPTY_NAME;
-    }
-    if (costprice <= 0 || sellingcost <= 0)
-    {
-        return ADD_PRODUCT_INVALID_PRICE;
-    }
-    if (quantity <= 0)
-    {
-        return ADD_PRODUCT_INVALID_QUANTITY;
-    }
+
     if (store.stockItemCount >= MAX_STOCK)
     {
         return ADD_PRODUCT_FULL;
@@ -161,16 +150,7 @@ AddProductResult addProduct(const char *itemName, float costprice, float selling
     {
         return ADD_PRODUCT_DUPLICATE;
     }
-    if (strcmp(category, "F") != 0 &&
-        strcmp(category, "D") != 0 &&
-        strcmp(category, "S") != 0)
-    {
-        return ADD_PRODUCT_INVALID_CATEGORY;
-    }
-    if (category == NULL || category[0] == '\0')
-    {
-        return ADD_PRODUCT_EMPTY_CATEGORY;
-    }
+
     Stock *productItem = &store.stockItem[store.stockItemCount]; // to avoid write long name so create new variable struct
 
     /*
