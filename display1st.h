@@ -4,14 +4,9 @@
 #include "product.h"
 #include "display1st.h"
 
-/* Login & role selection */
 void display_login();
-void admin_identification();
-void choosemode();
-
 /* Admin modules */
-void adminMode_first();
-void adminMode_second();
+
 
 /* Inventory display functions */
 void displayallitems();

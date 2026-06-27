@@ -6,7 +6,7 @@
 
 void inventoryReport()
 {
-    printf("\n===== INVENTORY REPORT =====\n");
+   // printf("\n===== INVENTORY REPORT =====\n");
 
     for (int i = 0; i < store.stockItemCount; i++)
     {

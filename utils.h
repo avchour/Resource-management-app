@@ -3,4 +3,5 @@
 
 int getIntInput(const char *prompt);
 float getFloatInput(const char *prompt);
+
 #endif
