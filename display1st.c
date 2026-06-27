@@ -66,8 +66,7 @@ void displayallitems()
             printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
                    mystock->stockID,
                    mystock->itemName,
-                   *mystock->category == 'F' || 'f' ? "Food" : *mystock->category == 'D' || 'd' ? "Drink"
-                                                                                                : "Snack",
+                   (*mystock->category == 'F' || *mystock->category == 'f') ? "Food" : (*mystock->category == 'D' || *mystock->category == 'd') ? "Drink" : "Snack",
                    mystock->costprice,
                    mystock->sellingcost,
                    mystock->onlineStock,
@@ -96,7 +95,7 @@ void viewlowstockitems()
     {
         Stock *mystock = &store.stockItem[i]; // use instead of using store.stockItem[i] many times
 
-        if (mystock->onlineStock <= mystock->onlineAlertPoint && mystock->onlineAlertPoint > 0)
+        if (mystock->onlineStock <= mystock->onlineAlertPoint && mystock->onlineAlertPoint > 0) 
         {
             if (found == 0)
             {
@@ -109,6 +108,7 @@ void viewlowstockitems()
             found++;
         }
 
+        /*
         if (mystock->physicalStock <= mystock->physicalAlertPoint && mystock->physicalAlertPoint > 0)
         {
             if (found == 0)
@@ -121,15 +121,15 @@ void viewlowstockitems()
             printf("%-6d %-20s %-10d %-8d\n", mystock->stockID, mystock->itemName, mystock->quantity, mystock->physicalStock);
 
             found++;
-        }
+        }*/
     }
 
     if (found == 0)
-        printf("No low stock items found.\n");
+        printf("No low online stock items found.\n");
     else
         printf("----------------------------------------------------------------\n");
 
-    printf("Low stock items: %d\n", found);
+    printf("Low online stock items: %d\n", found);
 
     // code to view low stock items
     // exit to adminMode_second
