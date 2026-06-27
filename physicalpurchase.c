@@ -27,6 +27,7 @@ PhysicalPurchaseResult simulatePhysicalPurchase(int stockID)
     }
 
     store.stockItem[index].physicalStock -= quantity;
+    store.stockItem[index].quantity -= quantity; 
     if (isPhysicalAlert(stockID))
     {
         printf("WARNING: Physical stock is low.\n");

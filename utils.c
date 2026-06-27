@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 
+
 int getIntInput(const char *prompt)
 {
     int value;
@@ -33,12 +34,14 @@ float getFloatInput(const char *prompt)
 
         if (scanf("%f", &value) == 1)
         {
-            while (getchar() != '\n');
+            while (getchar() != '\n')
+                ;
             return value;
         }
 
         printf("Invalid input! Please enter a number.\n");
 
-        while (getchar() != '\n');
+        while (getchar() != '\n')
+            ;
     }
 }

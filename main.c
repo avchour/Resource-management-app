@@ -8,11 +8,16 @@
 #include "product.h"
 #include "stockmanagement.h"
 #include "restock.h"
+#include <stdbool.h>
 
-
-int main()
+int main(void)
 {
-    // malloc
-    
-    display_login();
+    bool running = true;
+
+    while (running)
+    {
+        running = display_login(); // returns false when user chooses Exit
+    }
+
+    return 0;
 }
