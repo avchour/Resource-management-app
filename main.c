@@ -12,12 +12,8 @@
 
 int main(void)
 {
-    bool running = true;
 
-    while (running)
-    {
-        running = display_login(); // returns false when user chooses Exit
-    }
-
+     display_login(); // returns false when user chooses Exit
+    
     return 0;
 }
