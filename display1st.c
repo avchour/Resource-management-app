@@ -9,10 +9,11 @@
 #include "physicalPurchase.h"
 #include "restock.h"
 #include "utils.h"
+#include "roleAdmin.h"
 #include <ctype.h>
 
 void calculating_system(int stockID, int quantity);
-void display_login()// verify
+void display_login() // verify
 {
     bool login_running = true;
 
@@ -43,7 +44,6 @@ void display_login()// verify
 
     } while (login_running);
 }
-
 
 void displayallitems()
 {
