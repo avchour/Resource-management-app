@@ -150,12 +150,12 @@ void adminMode_first() // error
             break;
         }
 
-        char choice[20];
+        char choice;
 
         do
         {
             printf("Do you want to add another item? (y/n): ");
-            scanf(" %1s", choice);
+            scanf(" %c", &choice);
             while (getchar() != '\n')
                 ;
         } while (choice != 'y' && choice != 'Y' &&
