@@ -66,7 +66,8 @@ void displayallitems()
             printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
                    mystock->stockID,
                    mystock->itemName,
-                   (*mystock->category == 'F' || *mystock->category == 'f') ? "Food" : (*mystock->category == 'D' || *mystock->category == 'd') ? "Drink" : "Snack",
+                   (*mystock->category == 'F' || *mystock->category == 'f') ? "Food" : (*mystock->category == 'D' || *mystock->category == 'd') ? "Drink"
+                                                                                                                                                : "Snack",
                    mystock->costprice,
                    mystock->sellingcost,
                    mystock->onlineStock,
@@ -95,7 +96,7 @@ void viewlowstockitems()
     {
         Stock *mystock = &store.stockItem[i]; // use instead of using store.stockItem[i] many times
 
-        if (mystock->onlineStock <= mystock->onlineAlertPoint && mystock->onlineAlertPoint > 0) 
+        if (mystock->onlineStock <= mystock->onlineAlertPoint && mystock->onlineAlertPoint > 0)
         {
             if (found == 0)
             {
@@ -271,7 +272,7 @@ void customerMode() // should be added exit mode
         printf("5. Exit\n");
         printf("------------------------------------\n");
 
-        customer_choice = getIntInput ("Enter your choice: ");
+        customer_choice = getIntInput("Enter your choice: ");
 
         switch (customer_choice)
         {
@@ -308,11 +309,14 @@ void displayfooditems()
 
     for (int i = 0; i < store.stockItemCount; i++)
     {
-        if (strcmp(store.stockItem[i].category, "F") == 0)
+        if (store.stockItem[i].category[0] == 'F' ||
+            store.stockItem[i].category[0] == 'f')
+        {
             printf("[%d] %s - $%.2f\n",
                    store.stockItem[i].stockID,
                    store.stockItem[i].itemName,
                    store.stockItem[i].sellingcost);
+        }
     }
 
     int stockID, quantity;
@@ -337,11 +341,14 @@ void displaydrinkitems()
 
     for (int i = 0; i < store.stockItemCount; i++)
     {
-        if (strcmp(store.stockItem[i].category, "D") == 0)
+        if (store.stockItem[i].category[0] == 'D' ||
+            store.stockItem[i].category[0] == 'd')
+        {
             printf("[%d] %s - $%.2f\n",
                    store.stockItem[i].stockID,
                    store.stockItem[i].itemName,
                    store.stockItem[i].sellingcost);
+        }
     }
 
     int stockID, quantity;
@@ -368,11 +375,14 @@ void displaysnackitems()
 
     for (int i = 0; i < store.stockItemCount; i++)
     {
-        if (strcmp(store.stockItem[i].category, "S") == 0)
+        if (store.stockItem[i].category[0] == 'S' ||
+            store.stockItem[i].category[0] == 's')
+        {
             printf("[%d] %s - $%.2f\n",
                    store.stockItem[i].stockID,
                    store.stockItem[i].itemName,
                    store.stockItem[i].sellingcost);
+        }
     }
 
     int stockID, quantity;
@@ -390,6 +400,7 @@ void displaysnackitems()
 
     // code to display snack items
     // exit to customerMode
+
 }
 
 void displayhotdealitems()
@@ -412,6 +423,7 @@ void displayhotdealitems()
                    s->sellingcost, daysUntilExpiry);
             found++;
         }
+        
     }
 
     if (found == 0)
