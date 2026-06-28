@@ -16,32 +16,6 @@ int findStockIndexByID(int stockID)
 
     return -1;
 }
-int findStockIndexByName(const char itemName[])
-{
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
-        if (strcmp(store.stockItem[i].itemName, itemName) == 0)
-        {
-            return i;
-        }
-    }
-
-    return -1;
-}
-int findStockCountByCategory(const char category[]) // use later if report needed
-{
-    int count = 0;
-
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
-        if (strcmp(store.stockItem[i].category, category) == 0)
-        {
-            count++;
-        }
-    }
-
-    return count;
-}
 int editQuantity(int stockID, int newQuantity)
 {
     int index = findStockIndexByID(stockID);
@@ -183,8 +157,8 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
 }
 int removeProduct(int stockID)
 {
+    
     int index = findStockIndexByID(stockID);
-
     if (index == -1)
     {
         return 0;

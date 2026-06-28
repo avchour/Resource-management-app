@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -56,4 +56,25 @@ float getFloatInput(const char *prompt)
         while (getchar() != '\n')
             ;
     }
+}
+bool askAgain(const char *message)
+{
+    char choice;
+
+    do
+    {
+        printf("%s (Y/N): ", message);
+        scanf(" %c",&choice);
+
+        while(getchar()!='\n');
+        
+        choice=toupper(choice);
+        
+        if (choice != 'Y' && choice != 'N')
+        {
+            printf("Invalid choice.\n");
+        }
+    }while(choice!='Y' && choice!='N');
+
+    return choice=='Y';
 }

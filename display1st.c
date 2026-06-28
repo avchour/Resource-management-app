@@ -25,6 +25,7 @@ void display_login() // verify
         printf("Please select your role:\n");
         printf("1. Login as Customer\n");
         printf("2. Login as Admin\n");
+        printf("0. Exit\n");
         printf("------------------------------------\n");
 
         int loging_in = getIntInput("Enter your choice: ");
@@ -37,12 +38,15 @@ void display_login() // verify
         case 2:
             admin_identification();
             break;
+        case 0:
+            login_running=false;
+            break;
         default:
             printf("\nInvalid choice!Please try again.\n");
             break;
         }
-
     } while (login_running);
+    return 0;
 }
 
 void displayallitems()
@@ -253,189 +257,6 @@ void calculatedaily_monthlysalesReport() // verify
 
 //----------------------------------------------------------------------------------------------------------------------------
 
-// need cuustomer buying process function
-void customerMode() // should be added exit mode
-// if user choice is 2
-{
-    bool customer_mode_running = true;
-    do
-    {
-        int customer_choice;
-        printf("\n====================================\n");
-        printf("           SELECT CATEGORY\n");
-        printf("====================================\n");
-        printf("1. Food\n");
-        printf("2. Drinks\n");
-        printf("3. Snacks\n");
-        printf("4. Hot deal\n");
-        printf("5. Exit\n");
-        printf("------------------------------------\n");
-
-        customer_choice = getIntInput ("Enter your choice: ");
-
-        switch (customer_choice)
-        {
-        case 1:
-            displayfooditems();
-            break;
-        case 2:
-            displaydrinkitems();
-            break;
-        case 3:
-            displaysnackitems();
-            break;
-        case 4:
-            displayhotdealitems();
-            break;
-        case 5:
-            customer_mode_running = false;
-            printf("Exiting customer mode.\n");
-            break;
-        default:
-            printf("Invalid choice! Please try again.\n");
-            break;
-        }
-
-    } while (customer_mode_running);
-    display_login();
-}
-
-void displayfooditems()
-{
-    printf("\n====================================\n");
-    printf("              FOOD\n");
-    printf("====================================\n");
-
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
-        if (strcmp(store.stockItem[i].category, "F") == 0)
-            printf("[%d] %s - $%.2f\n",
-                   store.stockItem[i].stockID,
-                   store.stockItem[i].itemName,
-                   store.stockItem[i].sellingcost);
-    }
-
-    int stockID, quantity;
-    printf("Enter item ID: ");
-    scanf("%d", &stockID);
-    printf("Enter quantity: ");
-    scanf("%d", &quantity);
-
-    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
-
-    if (result == ONLINE_PURCHASE_SUCCESS)
-    {
-        calculating_system(stockID, quantity);
-    }
-}
-
-void displaydrinkitems()
-{
-    printf("\n====================================\n");
-    printf("             DRINKS\n");
-    printf("====================================\n");
-
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
-        if (strcmp(store.stockItem[i].category, "D") == 0)
-            printf("[%d] %s - $%.2f\n",
-                   store.stockItem[i].stockID,
-                   store.stockItem[i].itemName,
-                   store.stockItem[i].sellingcost);
-    }
-
-    int stockID, quantity;
-    printf("Enter item ID: ");
-    scanf("%d", &stockID);
-    printf("Enter quantity: ");
-    scanf("%d", &quantity);
-
-    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
-
-    if (result == ONLINE_PURCHASE_SUCCESS)
-    {
-        calculating_system(stockID, quantity);
-    }
-    // code to display drink items
-    // exit to customerMode
-}
-
-void displaysnackitems()
-{
-    printf("\n====================================\n");
-    printf("             SNACKS\n");
-    printf("====================================\n");
-
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
-        if (strcmp(store.stockItem[i].category, "S") == 0)
-            printf("[%d] %s - $%.2f\n",
-                   store.stockItem[i].stockID,
-                   store.stockItem[i].itemName,
-                   store.stockItem[i].sellingcost);
-    }
-
-    int stockID, quantity;
-    printf("Enter item ID: ");
-    scanf("%d", &stockID);
-    printf("Enter quantity: ");
-    scanf("%d", &quantity);
-
-    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
-
-    if (result == ONLINE_PURCHASE_SUCCESS)
-    {
-        calculating_system(stockID, quantity);
-    }
-
-    // code to display snack items
-    // exit to customerMode
-}
-
-void displayhotdealitems()
-{
-    printf("\n====================================\n");
-    printf("             HOT DEAL\n");
-    printf("====================================\n");
-
-    int found = 0;
-
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
-        Stock *s = &store.stockItem[i];
-        double daysUntilExpiry = 14.0 - difftime(time(NULL), s->stockArrivalDate) / 86400.0;
-
-        if (daysUntilExpiry <= 5.0 && daysUntilExpiry > 0)
-        {
-            printf("[%d] %s - $%.2f (Only %.0f days left!)\n",
-                   s->stockID, s->itemName,
-                   s->sellingcost, daysUntilExpiry);
-            found++;
-        }
-    }
-
-    if (found == 0)
-    {
-        printf("No hot deal items at the moment.\n");
-        return;
-    }
-
-    int stockID, quantity;
-    printf("Enter item ID: ");
-    scanf("%d", &stockID);
-    printf("Enter quantity: ");
-    scanf("%d", &quantity);
-
-    OnlinePurchaseResult result = purchaseOnline(stockID, quantity);
-
-    if (result == ONLINE_PURCHASE_SUCCESS)
-    {
-        calculating_system(stockID, quantity);
-    }
-
-    // code to display hot deal items
-    // exit to customerMode
-}
 
 void calculating_system(int stockID, int quantity)
 {

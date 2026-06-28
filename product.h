@@ -16,13 +16,7 @@ int editCostPrice(int stockID, float newCostPrice);
 
 int editSellingPrice(int stockID, float newSellingPrice);
 
-int editQuantity(int stockID, int newQuantity);
-
 int findStockIndexByID(int stockID);
-
-int findStockIndexByName(const char itemName[]);
-
-int findStockCountByCategory(const char category[]);
 
 int removeProduct(int stockID);
 
