@@ -153,10 +153,6 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
 
     Stock *productItem = &store.stockItem[store.stockItemCount]; // to avoid write long name so create new variable struct
 
-    /*
-    Copy the product name safely.//snprintf(destination,destination_size,"%s",source);=
-    Safely copy source string into destination string.// can use strcpy but to prevent buffer overflow and crash program.
-    */
     snprintf(productItem->itemName, sizeof(productItem->itemName), "%s", itemName); // strcpy (newItem->itemName,itemName);
 
     productItem->stockID = store.nextStockID;
