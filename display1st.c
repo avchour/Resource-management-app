@@ -465,3 +465,4 @@ void calculating_system(int stockID, int quantity)
     t->transactionDate = time(NULL);
     store.transactionCount++;
 }
+// add line 468
