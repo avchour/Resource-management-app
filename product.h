@@ -4,13 +4,8 @@
 typedef enum
 {
     ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_EMPTY_NAME,
-    ADD_PRODUCT_INVALID_PRICE,
-    ADD_PRODUCT_INVALID_QUANTITY,
     ADD_PRODUCT_DUPLICATE,
     ADD_PRODUCT_FULL,
-    ADD_PRODUCT_INVALID_CATEGORY,
-    ADD_PRODUCT_EMPTY_CATEGORY
 
 } AddProductResult;
 int editProductName(int stockID, const char newName[]);

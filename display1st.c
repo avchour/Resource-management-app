@@ -149,7 +149,7 @@ void viewoutofstockitems()
     {
         Stock *mystock = &store.stockItem[i];
 
-        if (mystock->onlineStock <= 0 && mystock->physicalStock <= 0)
+        if (isOutOfStock(mystock->stockID))
         {
             if (found == 0)
             {
