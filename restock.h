@@ -17,8 +17,6 @@ typedef enum
 } RestockResult;
 RestockResult createRestockOrder(int stockID, int quantity, RestockType type);
 
-RestockResult editRestockQuantity(int orderID, int newQuantity);
-
 RestockResult updateDeliveryStatus(int orderID, DeliveryStatus status);
 
 RestockResult confirmDelivery(int orderID);

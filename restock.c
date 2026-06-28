@@ -101,24 +101,6 @@ RestockResult updateDeliveryStatus(int orderID, DeliveryStatus status)
 
     return RESTOCK_SUCCESS;
 }
-RestockResult editRestockQuantity(int orderID, int newQuantity)
-{
-    int index = findRestockIndexByID(orderID);
-
-    if (index == -1)
-    {
-        return RESTOCK_ORDER_NOT_FOUND;
-    }
-
-    if (newQuantity <= 0)
-    {
-        return RESTOCK_INVALID_QUANTITY;
-    }
-
-    store.restockOrderItem[index].quantity = newQuantity;
-
-    return RESTOCK_SUCCESS;
-} // fix
 RestockResult confirmDelivery(int orderID)
 {
     int orderIndex = findRestockIndexByID(orderID);
