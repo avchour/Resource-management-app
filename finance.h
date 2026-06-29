@@ -10,5 +10,10 @@ int getMostSoldProduct();
 int getLeastSoldProduct();
 int getMostSoldQuantity();
 int getLeastSoldQuantity();
+float getAverageSale();
+float inventoryCostValue();
+int totalOnlineStock();
+int totalPhysicalStock();
+float inventorySellingValue();
 
 #endif

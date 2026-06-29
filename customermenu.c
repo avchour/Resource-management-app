@@ -2,7 +2,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include "data.h"
+#include "filehandler.h"
 #include "product.h"
+#include "customermenu.h"
 #include "onlinePurchase.h"
 #include "utils.h"
 #include <ctype.h>
@@ -63,6 +65,7 @@ void purchaseItem()
     case ONLINE_PURCHASE_SUCCESS:
         calculating_system(stockID, quantity);
         printf("Purchase successful.\n");
+        savedata();
         break;
 
     case ONLINE_PURCHASE_PRODUCT_NOT_FOUND:

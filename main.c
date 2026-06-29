@@ -1,8 +1,9 @@
 #include "display.h"
+#include "filehandler.h"
 int main(void)
 {
-
-     display_login(); 
-    
+    loadData ();
+    display_login(); 
+    saveData ();
     return 0;
 }

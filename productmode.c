@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include "roleAdmin.h"
 #include "data.h"
-#include "display1st.h"
 #include "product.h"
+#include "productmode.h"
 #include <ctype.h>
 #include "utils.h"
-
+#include "filehandler.h"
 void productMode()
 {
     bool running = true;
@@ -32,7 +31,7 @@ void productMode()
             edit();
             break;
         case 3:
-            remove();
+            delete();
             break;
         case 4:
             search();
@@ -133,6 +132,7 @@ void add()
         switch (result)
         {
         case ADD_PRODUCT_SUCCESS:
+            saveData();
             printf("Product added successfully.\n");
             break;
 
@@ -195,6 +195,7 @@ void edit()
 
             if (editProductName(stockID, newName))
                 printf("Product name updated successfully.\n");
+                saveData();
             else
                 printf("Failed to update product name.\n");
 
@@ -217,6 +218,7 @@ void edit()
 
             if (editCostPrice(stockID, newCost))
                 printf("Cost price updated successfully.\n");
+                saveData();
             else
                 printf("Failed to update cost price.\n");
 
@@ -239,6 +241,7 @@ void edit()
 
             if (editSellingPrice(stockID, newSell))
                 printf("Selling price updated successfully.\n");
+                saveData();
             else
                 printf("Failed to update selling price.\n");
 
@@ -270,6 +273,7 @@ void edit()
 
             if (editCategory(stockID, category))
                 printf("Category updated successfully.\n");
+                saveData();
             else
                 printf("Failed to update category.\n");
 
@@ -286,7 +290,7 @@ void edit()
 
     } while (running && askAgain("Edit another product"));
 }
-void remove()
+void delete()
 {
     do
     {
@@ -306,6 +310,7 @@ void remove()
         {
             removeProduct(stockID);
             printf("Product removed successfully.\n");
+            saveData();
         }
         else
         {
@@ -359,7 +364,8 @@ void searchByID()
     printf("ID          : %d\n", product->stockID);
     printf("Name        : %s\n", product->itemName);
     printf("Category    : %s\n",
-           product->category[0] == 'F' ? "Food" : product->category[0] == 'D' ? "Drink" : "Snack");
+           product->category[0] == 'F' ? "Food" : product->category[0] == 'D' ? "Drink"
+                                                                              : "Snack");
     printf("Cost Price  : %.2f\n", product->costprice);
     printf("Sell Price  : %.2f\n", product->sellingcost);
     printf("Online      : %d\n", product->onlineStock);

@@ -35,6 +35,60 @@ float calculateProfit()
     return calculateRevenue() - calculateExpense();
 }
 
+float getAverageSale()
+{
+    if(store.transactionCount==0)
+        return 0;
+
+    return calculateRevenue()/store.transactionCount;
+}
+
+float inventoryCostValue()
+{
+    float total=0;
+
+    for(int i=0;i<store.stockItemCount;i++)
+    {
+        total+=store.stockItem[i].costprice*
+               store.stockItem[i].quantity;
+    }
+
+    return total;
+}
+
+float inventorySellingValue()
+{
+    float total=0;
+
+    for(int i=0;i<store.stockItemCount;i++)
+    {
+        total+=store.stockItem[i].sellingcost*
+               store.stockItem[i].quantity;
+    }
+
+    return total;
+}
+
+int totalOnlineStock()
+{
+    int total=0;
+
+    for(int i=0;i<store.stockItemCount;i++)
+        total+=store.stockItem[i].onlineStock;
+
+    return total;
+}
+
+int totalPhysicalStock()
+{
+    int total=0;
+
+    for(int i=0;i<store.stockItemCount;i++)
+        total+=store.stockItem[i].physicalStock;
+
+    return total;
+}
+
 int getTotalTransactions()
 {
     return store.transactionCount;

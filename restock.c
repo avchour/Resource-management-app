@@ -3,6 +3,7 @@
 #include "data.h"
 #include "product.h"
 #include "alert.h"
+#include "filehandler.h"
 #include "stockmanagement.h"
 int findRestockIndexByID(int orderID)
 {
@@ -128,6 +129,7 @@ RestockResult confirmDelivery(int orderID)
     // call funct to split because ah nis order + ah total stock jg vea ot auto split stock management te jg yg hav derm bey split ruch kleng kron restock pleam auto split
     allocateStock(&store.stockItem[productIndex]);
     store.stockItem[productIndex].stockArrivalDate = time(NULL);
+    saveData ();
 
     order->status = DELIVERY_CONFIRMED;
 

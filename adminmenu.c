@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "display.h"
 #include "productmode.h"
-
+#include "adminmenu.h"
 #include <ctype.h>
 #include "utils.h"
 

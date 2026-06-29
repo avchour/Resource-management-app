@@ -1,8 +1,5 @@
-#ifndef display1st
-#define display1st
-#include "data.h"
-#include "product.h"
-
+#ifndef  DISPLAY1ST_H
+#define  DISPLAY1ST_H
 void display_login();
 /* Admin modules */
 
