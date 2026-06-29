@@ -180,16 +180,19 @@ void viewoutofstockitems()
 }
 
 // checked
+
 void viewPendingRestockOrders()
 {
     printf("\n====================================\n");
-    printf("     PENDING RESTOCK (3 DAYS)\n");
+    printf("      PENDING DELIVERIES\n");
     printf("====================================\n");
 
     int found = 0;
 
-    time_t now = time(NULL);
+    printf("%-20s %-12s\n", "Item Name", "Type");
+    printf("-------------------------------------\n");
 
+    /* Pending Restock Orders */
     for (int i = 0; i < store.restockOrderCount; i++)
     {
         RestockOrder *order = &store.restockOrderItem[i];
@@ -197,40 +200,40 @@ void viewPendingRestockOrders()
         if (order->status != DELIVERY_IN_TRANSIT)
             continue;
 
-        // still in delivery window
-        if (now >= order->expectedArrivalAt)
+        int index = findStockIndexByID(order->stockID);
+
+        if (index == -1)
             continue;
 
-        int stockIndex = findStockIndexByID(order->stockID);
-        if (stockIndex == -1)
-            continue;
-
-        Stock *item = &store.stockItem[stockIndex];
-
-        if (found == 0)
-        {
-            printf("%-10s %-20s %-15s\n", "OrderID", "Item Name", "ETA");
-            printf("------------------------------------------------\n");
-        }
-
-        char eta[20];
-        strftime(eta, sizeof(eta), "%Y-%m-%d", localtime(&order->expectedArrivalAt));
-
-        printf("%-10d %-20s %-15s\n",
-               order->orderId,
-               item->itemName,
-               eta);
+        printf("%-20s %-12s\n",
+               store.stockItem[index].itemName,
+               "Restock");
 
         found++;
     }
 
+    /* Pending Expired Exchanges */
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *item = &store.stockItem[i];
+
+        if (item->exchangeRequested)
+        {
+            printf("%-20s %-12s\n",
+                   item->itemName,
+                   "Exchange");
+
+            found++;
+        }
+    }
+
     if (found == 0)
     {
-        printf("No pending restock orders.\n");
+        printf("No pending deliveries.\n");
     }
     else
     {
-        printf("------------------------------------------------\n");
-        printf("Total pending: %d\n", found);
+        printf("-------------------------------------\n");
+        printf("Total pending deliveries: %d\n", found);
     }
 }
