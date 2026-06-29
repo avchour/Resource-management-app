@@ -9,8 +9,14 @@
 #include <ctype.h>
 #include "utils.h"
 #include "report.h"
+static bool todaySimulated = false;
 void stockMode()
 {
+    if (!todaySimulated)
+    {
+        simulateDailyPhysicalSales();
+        todaySimulated = true;
+    }
     bool admin_mode2_running = true;
     do
     {

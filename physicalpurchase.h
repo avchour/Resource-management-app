@@ -8,7 +8,7 @@ typedef enum
     PHYSICAL_PURCHASE_OUT_OF_STOCK
 } PhysicalPurchaseResult;
 
-PhysicalPurchaseResult
-simulatePhysicalPurchase(int stockID);
+PhysicalPurchaseResult simulatePhysicalPurchase(int stockID);
+void simulateDailyPhysicalSales(void);
 
 #endif

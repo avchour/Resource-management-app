@@ -3,6 +3,7 @@
 #include "restock.h"
 int main(void)
 {
+    srand((unsigned)time(NULL));
     loadData();
     autoProcessExpiredItems();
     autoProcessRestock();
