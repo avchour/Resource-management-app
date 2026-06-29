@@ -16,25 +16,7 @@ int findStockIndexByID(int stockID)
 
     return -1;
 }
-int editQuantity(int stockID, int newQuantity)
-{
-    int index = findStockIndexByID(stockID);
 
-    if (index == -1)
-    {
-        return 0;
-    }
-
-    if (newQuantity <= 0)
-    {
-        return 0;
-    }
-
-    store.stockItem[index].quantity = newQuantity;
-    allocateStock(&store.stockItem[index]);
-
-    return 1;
-}
 int editCategory(int stockID, const char category[])
 {
     int index = findStockIndexByID(stockID);
@@ -103,7 +85,7 @@ int editSellingPrice(int stockID, float newSellingPrice)
         return 0;
     }
 
-    if (newSellingPrice <= 0)
+    if (newSellingPrice <= store.stockItem[index].costprice)
     {
         return 0;
     }
@@ -141,9 +123,6 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
     productItem->onlineAlertPoint = 0;
     productItem->physicalAlertPoint = 0;
 
-    productItem->normalRestockQuantity = 0;
-    productItem->emergencyRestockQuantity = 0;
-
     snprintf(productItem->category, sizeof(productItem->category), "%s", category);
     productItem->stockArrivalDate = time(NULL);
     productItem->exchangeFeeRate = 0.10f;
@@ -154,22 +133,4 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
     store.nextStockID++;
 
     return ADD_PRODUCT_SUCCESS;
-}
-int removeProduct(int stockID)
-{
-    
-    int index = findStockIndexByID(stockID);
-    if (index == -1)
-    {
-        return 0;
-    }
-
-    for (int i = index; i < store.stockItemCount - 1; i++)
-    {
-        store.stockItem[i] = store.stockItem[i + 1];
-    }
-
-    store.stockItemCount--;
-
-    return 1;
 }

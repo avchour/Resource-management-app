@@ -11,8 +11,6 @@
 #include "utils.h"
 #include <ctype.h>
 
-void calculating_system(int stockID, int quantity);
-
 void displayallitems()
 {
     if (store.stockItemCount == 0)
@@ -217,24 +215,4 @@ void calculatedaily_monthlysalesReport() // verify
         printf("Invalid choice.\n");
         break;
     }
-}
-
-//----------------------------------------------------------------------------------------------------------------------------
-
-
-void calculating_system(int stockID, int quantity)
-{
-    int index = findStockIndexByID(stockID);
-    if (index == -1)
-        return;
-
-    Stock *s = &store.stockItem[index];
-
-    Transaction *t = &store.transactionItem[store.transactionCount];
-    t->transactionId = store.transactionCount + 1;
-    t->stockID = stockID;
-    t->quantity = quantity;
-    t->totalAmount = s->sellingcost * quantity;
-    t->transactionDate = time(NULL);
-    store.transactionCount++;
 }

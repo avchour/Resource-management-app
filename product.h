@@ -18,8 +18,6 @@ int editSellingPrice(int stockID, float newSellingPrice);
 
 int findStockIndexByID(int stockID);
 
-int removeProduct(int stockID);
-
 AddProductResult addProduct(char *itemName, float costprice, float sellingcost, int quantity, char *category);
 
 #endif

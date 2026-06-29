@@ -17,8 +17,7 @@ void productMode()
         printf("====================================\n");
         printf("1. Add Product\n");
         printf("2. Edit Product\n");
-        printf("3. Remove Product\n");
-        printf("4. Search Product\n");
+        printf("3. Search Product\n");
         printf("0. Back\n");
         printf("------------------------------------\n");
 
@@ -31,9 +30,6 @@ void productMode()
             edit();
             break;
         case 3:
-            delete();
-            break;
-        case 4:
             search();
             break;
         case 0:
@@ -85,7 +81,7 @@ void add()
         while (1)
         {
             out_price = getFloatInput("Enter selling price: ");
-            if (out_price <= 0)
+            if (out_price <= in_price)
             {
                 printf("Enter selling price again");
                 continue;
@@ -195,9 +191,8 @@ void edit()
 
             if (editProductName(stockID, newName))
                 printf("Product name updated successfully.\n");
-                saveData();
-            else
-                printf("Failed to update product name.\n");
+            saveData();
+            else printf("Failed to update product name.\n");
 
             break;
         }
@@ -218,9 +213,8 @@ void edit()
 
             if (editCostPrice(stockID, newCost))
                 printf("Cost price updated successfully.\n");
-                saveData();
-            else
-                printf("Failed to update cost price.\n");
+            saveData();
+            else printf("Failed to update cost price.\n");
 
             break;
         }
@@ -241,9 +235,8 @@ void edit()
 
             if (editSellingPrice(stockID, newSell))
                 printf("Selling price updated successfully.\n");
-                saveData();
-            else
-                printf("Failed to update selling price.\n");
+            saveData();
+            else printf("Failed to update selling price.\n");
 
             break;
         }
@@ -273,9 +266,8 @@ void edit()
 
             if (editCategory(stockID, category))
                 printf("Category updated successfully.\n");
-                saveData();
-            else
-                printf("Failed to update category.\n");
+            saveData();
+            else printf("Failed to update category.\n");
 
             break;
         }
@@ -289,34 +281,6 @@ void edit()
         }
 
     } while (running && askAgain("Edit another product"));
-}
-void delete()
-{
-    do
-    {
-        int stockID;
-
-        printf("\n========== REMOVE PRODUCT ==========\n");
-
-        stockID = getIntInput("Enter Product ID: ");
-
-        if (findStockIndexByID(stockID) == -1)
-        {
-            printf("Error: Product ID not found.\n");
-            continue;
-        }
-
-        if (askAgain("Are you sure you want to remove this product"))
-        {
-            removeProduct(stockID);
-            printf("Product removed successfully.\n");
-            saveData();
-        }
-        else
-        {
-            printf("Remove cancelled.\n");
-        }
-    } while (askAgain("Remove another product"));
 }
 
 void search()

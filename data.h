@@ -16,13 +16,10 @@ typedef struct
     int physicalStock;
     int onlineAlertPoint;
     int physicalAlertPoint;
-    int normalRestockQuantity;    // standard coke :100
-    int emergencyRestockQuantity; // emer: 10 immediet request->
-
     time_t stockArrivalDate;
     float exchangeFeeRate;
 } Stock;
-typedef enum // for restock schedule 5day per restock; otherwise got request emergency
+typedef enum // for restock schedule 7day per restock; otherwise got request emergency
 {
     RESTOCK_NORMAL,
     RESTOCK_EMERGENCY
