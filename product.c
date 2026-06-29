@@ -16,6 +16,18 @@ int findStockIndexByID(int stockID)
 
     return -1;
 }
+int findStockIndexByName(const char itemName[])
+{
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        if (strcmp(store.stockItem[i].itemName, itemName) == 0)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
 
 int editCategory(int stockID, const char category[])
 {
