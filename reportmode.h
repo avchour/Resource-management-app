@@ -1,4 +1,4 @@
-#ifndef STOCKMODE_H
-#define STOCKMODE_H
+#ifndef REPORTMODE_H
+#define REPORTMODE_H
 void reportMode();
 #endif
