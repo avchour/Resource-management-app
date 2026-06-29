@@ -7,7 +7,7 @@
 #include "stockmode.h"
 #include <ctype.h>
 #include "utils.h"
-#include "report.h"
+#include "reportmode.h"
 
 void admin_identification() // verify but the password not yet flow good
 {

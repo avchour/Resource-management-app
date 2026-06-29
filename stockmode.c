@@ -107,7 +107,7 @@ void viewlowstockitems()
     {
         Stock *mystock = &store.stockItem[i];
 
-        if (isOnlineAlert || isPhysicalAlert)
+        if (isOnlineAlert(mystock->stockID) || isPhysicalAlert(mystock->stockID))
         {
             if (found == 0)
             {
