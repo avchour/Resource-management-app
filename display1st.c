@@ -74,7 +74,7 @@ void viewlowstockitems()
             found++;
         }
 
-        /*
+        
         if (mystock->physicalStock <= mystock->physicalAlertPoint && mystock->physicalAlertPoint > 0)
         {
             if (found == 0)
@@ -87,7 +87,7 @@ void viewlowstockitems()
             printf("%-6d %-20s %-10d %-8d\n", mystock->stockID, mystock->itemName, mystock->quantity, mystock->physicalStock);
 
             found++;
-        }*/
+        }
     }
 
     if (found == 0)

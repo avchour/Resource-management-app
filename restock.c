@@ -5,6 +5,15 @@
 #include "alert.h"
 #include "filehandler.h"
 #include "stockmanagement.h"
+#include <stdbool.h>
+#include "report.h"
+#include "product.h"
+#include "display1st.h"
+#include "onlinePurchase.h"
+#include "physicalPurchase.h"
+
+
+
 int findRestockIndexByID(int orderID)
 {
     for (int i = 0; i < store.restockOrderCount; i++)
@@ -163,3 +172,110 @@ int hasPendingRestockOrder(int stockID) // prevent duplicate same product reques
 
     return 0;
 }
+
+
+time_t expiryDate;
+
+bool exchangeRequested;
+
+time_t exchangeArrivalDate;
+
+int exchangeQuantity;
+
+void autoProcessRestock()
+{
+    time_t now = time(NULL);
+
+    for (int i = 0; i < store.restockOrderCount; i++)
+    {
+        RestockOrder *order = &store.restockOrderItem[i];
+
+        // Wait until delivery date
+        if (order->status != DELIVERY_IN_TRANSIT)
+            continue;
+
+        if (now < order->expectedArrivalAt)
+            continue;
+
+        int index = findStockIndexByID(order->stockID);
+
+        if (index == -1)
+            continue;
+
+        // Add stock
+        store.stockItem[index].quantity += order->quantity;
+
+        // Automatically split into online & physical
+        allocateStock(&store.stockItem[index]);
+
+        // Delivery finished
+        order->status = DELIVERY_CONFIRMED;
+        order->confirmedAt = now;
+    }
+}
+
+
+time_t expiryDate;
+
+bool exchangeRequested;
+
+time_t exchangeArrivalDate;
+
+int exchangeQuantity;
+
+void autoProcessExpiredItems()
+{
+    time_t now = time(NULL);
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *item = &store.stockItem[i];
+
+        /* -----------------------------
+           STEP 1
+           Item has expired.
+           Send it back to factory.
+        ------------------------------*/
+        if (item->expiryDate <= now &&
+            !item->exchangeRequested)
+        {
+            // Remember how many items are being exchanged
+            item->exchangeQuantity = item->quantity;
+
+            // Remove expired stock immediately
+            item->quantity = 0;
+            item->onlineStock = 0;
+            item->physicalStock = 0;
+
+            // Create exchange request
+            item->exchangeRequested = true;
+
+            // Replacement arrives in 3 days
+            item->exchangeArrivalDate = now + (3 * 24 * 60 * 60);
+        }
+
+        /* -----------------------------
+           STEP 2
+           Replacement has arrived.
+        ------------------------------*/
+        else if (item->exchangeRequested &&
+                 now >= item->exchangeArrivalDate)
+        {
+            // Receive new stock
+            item->quantity = item->exchangeQuantity;
+
+            // Split into online and physical stock
+            allocateStock(item);
+
+            // New expiry date
+            item->expiryDate = now + (180 * 24 * 60 * 60);
+
+            // Reset exchange information
+            item->exchangeRequested = false;
+            item->exchangeArrivalDate = 0;
+            item->exchangeQuantity = 0;
+        }
+    }
+}
+
+

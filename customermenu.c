@@ -5,10 +5,11 @@
 #include "filehandler.h"
 #include "product.h"
 #include "customermenu.h"
-#include "onlinePurchase.h"
+#include "stockmanagement.h"
 #include "utils.h"
 #include <ctype.h>
 #include "display.h"
+#include "onlinepurchase.h"
 void customerMode()
 {
     bool customer_mode_running = true;
