@@ -66,58 +66,15 @@ void viewlowstockitems()
 
     for (int i = 0; i < store.stockItemCount; i++)
     {
-        Stock *mystock = &store.stockItem[i];
-
-        if (isOnlineAlert(mystock->stockID) || isPhysicalAlert(mystock->stockID))
-        {
-            if (found == 0)
-            {
-                printf("%-6s %-20s %-10s %-10s %-10s\n",
-                       "ID", "Name", "Quantity", "Online", "Physical");
-                printf("------------------------------------------------------------\n");
-            }
-            printf("%-6d %-20s %-10d %-10d %-10d\n",
-                   mystock->stockID,
-                   mystock->itemName,
-                   mystock->quantity,
-                   mystock->onlineStock,
-                   mystock->physicalStock);
-
-            found++;
-        }
-    }
-
-    if (found == 0)
-    {
-        printf("No low stock items found.\n");
-    }
-    else
-    {
-        printf("------------------------------------------------------------\n");
-        printf("Total low stock items: %d\n", found);
-    }
-}
-
-// checked
-
-void viewoutofstockitems()
-{
-    printf("\n====================================\n");
-    printf("        OUT OF STOCK ITEMS\n");
-    printf("====================================\n");
-
-    int found = 0;
-
-    for (int i = 0; i < store.stockItemCount; i++)
-    {
         Stock *item = &store.stockItem[i];
 
-        if (item->quantity == 0)
+        // NEW RULE: fixed threshold = 20
+        if (item->quantity <= 20 && item->quantity > 0)
         {
             if (found == 0)
             {
                 printf("%-6s %-20s %-10s\n", "ID", "Name", "Quantity");
-                printf("------------------------------------\n");
+                printf("----------------------------------------\n");
             }
 
             printf("%-6d %-20s %-10d\n",
@@ -131,15 +88,14 @@ void viewoutofstockitems()
 
     if (found == 0)
     {
-        printf("No out of stock items found.\n");
+        printf("No low stock items found.\n");
     }
     else
     {
-        printf("------------------------------------\n");
-        printf("Total out of stock items: %d\n", found);
+        printf("----------------------------------------\n");
+        printf("Total low stock items: %d\n", found);
     }
 }
-
 // checked
 
 void viewPendingRestockOrders()
