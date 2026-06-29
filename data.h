@@ -5,27 +5,40 @@
 #define MAX_STOCK 100
 #define MAX_ORDER 500 // for restock seller request when stock alert
 #define MAX_TRANSACTION 10000
+#include <stdbool.h>
+
 typedef struct
 {
     char itemName[100];
-    char category;
+    char category[50];
     int stockID;
-    float sellingcost; // dak louk
-    float costprice;   // we owner go to buy stock
-    
-    int quantity;      // total stock
+    float sellingcost;
+    float costprice;
+
+    int quantity;
     int onlineStock;
     int physicalStock;
+
     int onlineAlertPoint;
     int physicalAlertPoint;
 
-    time_t stockArrivalDate;
-    float exchangeFeeRate;
-    time_t expiryDate;              
-    bool exchangeRequested;        
-    time_t exchangeArrivalDate;     
+    int normalRestockQuantity;
+    int emergencyRestockQuantity;
 
-    int exchangeQuantity;    
+    time_t stockArrivalDate;
+
+    float exchangeFeeRate;
+
+    /* ---------- Add these ---------- */
+
+    time_t expiryDate;
+
+    bool exchangeRequested;
+
+    time_t exchangeArrivalDate;
+
+    int exchangeQuantity;
+
 } Stock;
 typedef enum // for restock schedule 7day per restock; otherwise got request emergency
 {
@@ -52,7 +65,6 @@ typedef struct
     time_t requestedAt;
     time_t expectedArrivalAt;
     time_t confirmedAt;
-    
 
     float transportCost;
 } RestockOrder; // for track restock
