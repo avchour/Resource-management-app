@@ -64,9 +64,9 @@ void choosemode() // verify
         case 2:
             stockMode(); // check inventory
             break;
-      /*  case 3:
+        case 3:
             reportMode();
-            break;*/
+            break;
         case 0:
             running = false;
             printf("Exiting admin mode.\n");

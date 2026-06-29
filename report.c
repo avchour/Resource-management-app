@@ -4,31 +4,41 @@
 #include "alert.h"
 #include "data.h"
 
-void inventoryReport()
+void displayallitems()
 {
-       // printf("\n===== INVENTORY REPORT =====\n");
+    if (store.stockItemCount == 0)
+    {
+        printf("\nNo items in inventory.\n");
+        return;
+    }
+    else
+    {
+        printf("\n====================================\n");
+        printf("        ALL ITEMS IN INVENTORY\n");
+        printf("====================================\n");
+        printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n", "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
+        printf("----------------------------------------------------------------\n");
 
-       for (int i = 0; i < store.stockItemCount; i++)
-       {
-              printf("\nID : %d\n",
-                     store.stockItem[i].stockID);
+        for (int i = 0; i < store.stockItemCount; i++)
+        {
+            Stock *mystock = &store.stockItem[i];
+            printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
+                   mystock->stockID,
+                   mystock->itemName,
+                   (mystock->category == 'F') ? "Food" : (mystock->category == 'D') ? "Drink"
+                                                                                    : "Snack",
+                   mystock->costprice,
+                   mystock->sellingcost,
+                   mystock->onlineStock,
+                   mystock->physicalStock,
+                   mystock->quantity);
+        }
 
-              printf("Name : %s\n",
-                     store.stockItem[i].itemName);
-
-              printf("%s",
-                     store.stockItem[i].category == 'F' ? "Food" : store.stockItem[i].category == 'D' ? "Drink"
-                                                                                                      : "Snack");
-
-              printf("Total Stock : %d\n",
-                     store.stockItem[i].quantity);
-
-              printf("Online Stock : %d\n",
-                     store.stockItem[i].onlineStock);
-
-              printf("Physical Stock : %d\n",
-                     store.stockItem[i].physicalStock);
-       }
+        printf("------------------------------------\n");
+        printf("Total items: %d\n", store.stockItemCount);
+    }
+    // code to display all items in inventory
+    // exit to adminMode_second
 }
 void lowStockReport()
 {

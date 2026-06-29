@@ -1,8 +1,7 @@
 #ifndef REPORT_H
 #define REPORT_H
-
-void inventoryReport();
 void lowStockReport();
+void displayallitems();
 void dailySalesReport();
 void monthlySalesReport();
 

@@ -118,7 +118,7 @@ void displayCategory(const char category)
     printf("====================================\n");
 
     printf("%-6s %-20s %-10s %-10s\n",
-           "ID", "Name", "Price", "Stock");
+           "ID", "Name", "Price", "Qty");
 
     printf("------------------------------------------------------\n");
 
@@ -128,14 +128,22 @@ void displayCategory(const char category)
     {
         Stock *item = &store.stockItem[i];
 
-        if (toupper(item->category)!=toupper(category))
+        if (toupper(item->category) != toupper(category))
             continue;
 
-        printf("%-6d %-20s %-10.2f %-10d\n",
+        const char *status;
+
+        if (item->onlineStock == 0)
+            status = "Out of Stock";
+        else
+            status = "Available";
+
+        printf("%-6d %-20s %-10.2f %-10d %-15s\n",
                item->stockID,
                item->itemName,
                item->sellingcost,
-               item->onlineStock);
+               item->onlineStock,
+               status);
 
         found = 1;
     }
