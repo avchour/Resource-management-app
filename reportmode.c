@@ -68,11 +68,5 @@ void reportMode()
             printf("Invalid choice.\n");
             break;
         }
-
-        if (running)
-        {
-            printf("\nPress Enter to continue...");
-            getchar();
-        }
     }
 }
