@@ -28,15 +28,15 @@ void customerMode()
         switch (getIntInput("Enter your choice: "))
         {
         case 1:
-            displayCategory("F");
+            displayCategory('F');
             break;
 
         case 2:
-            displayCategory("D");
+            displayCategory('D');
             break;
 
         case 3:
-            displayCategory("S");
+            displayCategory('S');
             break;
 
         case 4:
@@ -104,14 +104,16 @@ void calculating_system(int stockID, int quantity)
     store.transactionCount++;
 }
 
-void displayCategory(const category)
+void displayCategory(const char category)
 {
     printf("\n====================================\n");
 
-
-    if (category =="F")  printf("               FOOD\n");
-    if (category =="D")  printf("              DRINKS\n");
-    if (category =="S")  printf("              SNACKS\n");
+    if (category == 'F')
+        printf("               FOOD\n");
+    if (category == 'D')
+        printf("              DRINKS\n");
+    if (category == 'S')
+        printf("              SNACKS\n");
 
     printf("====================================\n");
 
@@ -126,7 +128,7 @@ void displayCategory(const category)
     {
         Stock *item = &store.stockItem[i];
 
-        if (toupper(item->category[0]) != category)
+        if (toupper(item->category)!=toupper(category))
             continue;
 
         printf("%-6d %-20s %-10.2f %-10d\n",

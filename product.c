@@ -4,6 +4,7 @@
 #include "data.h"
 #include "product.h"
 #include "stockmanagement.h"
+#include <ctype.h>
 int findStockIndexByID(int stockID)
 {
     for (int i = 0; i < store.stockItemCount; i++)
@@ -29,7 +30,7 @@ int findStockIndexByName(const char itemName[])
     return -1;
 }
 
-int editCategory(int stockID, const char category[])
+int editCategory(int stockID, const char newCategory)
 {
     int index = findStockIndexByID(stockID);
 
@@ -37,12 +38,11 @@ int editCategory(int stockID, const char category[])
     {
         return 0;
     }
-    if (category == NULL || category[0] == '\0')
+    if (newCategory != 'F' && newCategory != 'D' && newCategory != 'S')
     {
         return 0;
     }
-    snprintf(store.stockItem[index].category, sizeof(store.stockItem[index].category), "%s", category);
-
+    store.stockItem[index].category = newCategory;
     return 1;
 }
 int editProductName(int stockID, const char newName[])
@@ -82,7 +82,10 @@ int editCostPrice(int stockID, float newCostPrice)
     {
         return 0;
     }
-
+    if (newCostPrice >= store.stockItem[index].sellingcost)
+    {
+        return 0;
+    }
     store.stockItem[index].costprice = newCostPrice;
 
     return 1;
@@ -106,9 +109,12 @@ int editSellingPrice(int stockID, float newSellingPrice)
     return 1;
 }
 
-AddProductResult addProduct(char *itemName, float costprice, float sellingcost, int quantity, char *category)
+AddProductResult addProduct(char *itemName, float costprice, float sellingcost, int quantity, char category)
 {
-
+    if (itemName == NULL)
+    {
+        return 0;
+    }
     if (store.stockItemCount >= MAX_STOCK)
     {
         return ADD_PRODUCT_FULL;
@@ -128,14 +134,19 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
     productItem->sellingcost = sellingcost;
 
     productItem->quantity = quantity;
+    productItem->category = toupper(category);
 
     allocateStock(productItem);
 
     productItem->onlineAlertPoint = 0;
     productItem->physicalAlertPoint = 0;
 
-    snprintf(productItem->category, sizeof(productItem->category), "%s", category);
     productItem->stockArrivalDate = time(NULL);
+
+    productItem->expiryDate = productItem->stockArrivalDate + (180 * 24 * 60 * 60);
+    productItem->exchangeRequested = false;
+    productItem->exchangeArrivalDate = 0;
+    productItem->exchangeQuantity = 0;
     productItem->exchangeFeeRate = 0.10f;
     /*
     Update store counters.

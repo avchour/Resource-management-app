@@ -1,23 +1,31 @@
 #ifndef DATA_H
 #define DATA_H
 #include <time.h>
+#include <stdbool.h>
 #define MAX_STOCK 100
 #define MAX_ORDER 500 // for restock seller request when stock alert
 #define MAX_TRANSACTION 10000
 typedef struct
 {
     char itemName[100];
-    char category[50];
+    char category;
     int stockID;
     float sellingcost; // dak louk
     float costprice;   // we owner go to buy stock
+    
     int quantity;      // total stock
     int onlineStock;
     int physicalStock;
     int onlineAlertPoint;
     int physicalAlertPoint;
+
     time_t stockArrivalDate;
     float exchangeFeeRate;
+    time_t expiryDate;              
+    bool exchangeRequested;        
+    time_t exchangeArrivalDate;     
+
+    int exchangeQuantity;    
 } Stock;
 typedef enum // for restock schedule 7day per restock; otherwise got request emergency
 {

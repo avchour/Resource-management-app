@@ -48,7 +48,7 @@ void add()
         char item_name[255];
         float in_price, out_price;
         int quantity;
-        char category[20];
+        char category;
         printf("\n========== ADD PRODUCT ==========\n");
         while (1)
         {
@@ -71,7 +71,7 @@ void add()
             in_price = getFloatInput("Enter cost expense: ");
             if (in_price <= 0)
             {
-                printf("Enter cost expense again!");
+                printf("Invalid cost expense!\n");
                 continue;
             }
             break;
@@ -83,7 +83,7 @@ void add()
             out_price = getFloatInput("Enter selling price: ");
             if (out_price <= in_price)
             {
-                printf("Enter selling price again");
+                printf("Invalid selling price again!\n");
                 continue;
             }
             break;
@@ -95,7 +95,7 @@ void add()
             quantity = getIntInput("Enter item's quantity: ");
             if (quantity <= 0)
             {
-                printf("Enter quantity again!");
+                printf("Invalid quantity!\n");
                 continue;
             }
             break;
@@ -105,12 +105,12 @@ void add()
         while (1)
         {
             printf("Choose category : (F)ood (D)rinks (S)nacks: ");
-            scanf("%1s", category);
+            scanf("%c", &category);
+            category = toupper(category);
             while (getchar() != '\n')
                 ;
 
-            char c = toupper(category[0]);
-            if (c == 'F' || c == 'D' || c == 'S')
+            if (category == 'F' || category == 'D' || category == 'S')
             {
                 printf("Category update successfully.\n");
                 break;
@@ -190,11 +190,14 @@ void edit()
             }
 
             if (editProductName(stockID, newName))
+            {
                 printf("Product name updated successfully.\n");
-            saveData();
+                saveData();
+            }
             else
+            {
                 printf("Failed to update product name.\n");
-
+            }
             break;
         }
 
@@ -213,9 +216,11 @@ void edit()
             }
 
             if (editCostPrice(stockID, newCost))
+            {
                 printf("Cost price updated successfully.\n");
-            saveData();
-            else 
+                saveData();
+            }
+            else
                 printf("Failed to update cost price.\n");
 
             break;
@@ -235,11 +240,12 @@ void edit()
                 printf("Invalid selling price.\n");
             }
 
-            if (editSellingPrice(stockID, newSell)){
+            if (editSellingPrice(stockID, newSell))
+            {
                 printf("Selling price updated successfully.\n");
                 saveData();
             }
-            else 
+            else
                 printf("Failed to update selling price.\n");
 
             break;
@@ -247,20 +253,19 @@ void edit()
 
         case 4:
         {
-            char category[20];
+            char category;
 
             while (1)
             {
                 printf("Enter category (F/D/S): ");
-                scanf("%1s", category);
+                scanf("%c", &category);
+                category = toupper(category);
                 while (getchar() != '\n')
                     ;
 
-                category[0] = toupper(category[0]);
-
-                if (category[0] == 'F' ||
-                    category[0] == 'D' ||
-                    category[0] == 'S')
+                if (category == 'F' ||
+                    category == 'D' ||
+                    category == 'S')
                 {
                     break;
                 }
@@ -269,9 +274,12 @@ void edit()
             }
 
             if (editCategory(stockID, category))
+            {
                 printf("Category updated successfully.\n");
-            saveData();
-            else printf("Failed to update category.\n");
+                saveData();
+            }
+            else
+                printf("Failed to update category.\n");
 
             break;
         }
@@ -332,8 +340,8 @@ void searchByID()
     printf("ID          : %d\n", product->stockID);
     printf("Name        : %s\n", product->itemName);
     printf("Category    : %s\n",
-           product->category[0] == 'F' ? "Food" : product->category[0] == 'D' ? "Drink"
-                                                                              : "Snack");
+           product->category == 'F' ? "Food" : product->category == 'D' ? "Drink"
+                                                                        : "Snack");
     printf("Cost Price  : %.2f\n", product->costprice);
     printf("Sell Price  : %.2f\n", product->sellingcost);
     printf("Online      : %d\n", product->onlineStock);

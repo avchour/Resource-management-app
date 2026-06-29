@@ -7,9 +7,6 @@
 #include "stockmanagement.h"
 #include <stdbool.h>
 #include "report.h"
-#include "product.h"
-#include "onlinePurchase.h"
-#include "physicalPurchase.h"
 
 
 
@@ -97,19 +94,7 @@ RestockResult createRestockOrder(int stockID, int quantity, RestockType type)
 
     return RESTOCK_SUCCESS;
 }
-RestockResult updateDeliveryStatus(int orderID, DeliveryStatus status)
-{
-    int index = findRestockIndexByID(orderID);
 
-    if (index == -1)
-    {
-        return RESTOCK_ORDER_NOT_FOUND;
-    }
-
-    store.restockOrderItem[index].status = status;
-
-    return RESTOCK_SUCCESS;
-}
 RestockResult confirmDelivery(int orderID)
 {
     int orderIndex = findRestockIndexByID(orderID);
@@ -137,12 +122,12 @@ RestockResult confirmDelivery(int orderID)
     // call funct to split because ah nis order + ah total stock jg vea ot auto split stock management te jg yg hav derm bey split ruch kleng kron restock pleam auto split
     allocateStock(&store.stockItem[productIndex]);
     store.stockItem[productIndex].stockArrivalDate = time(NULL);
-    saveData ();
-
+    
     order->status = DELIVERY_CONFIRMED;
-
+    
     order->confirmedAt = time(NULL);
-
+    
+    saveData ();
     return RESTOCK_SUCCESS;
 }
 int canRestock(int stockID)
@@ -171,15 +156,6 @@ int hasPendingRestockOrder(int stockID) // prevent duplicate same product reques
 
     return 0;
 }
-
-
-time_t expiryDate;
-
-bool exchangeRequested;
-
-time_t exchangeArrivalDate;
-
-int exchangeQuantity;
 
 void autoProcessRestock()
 {
@@ -212,15 +188,6 @@ void autoProcessRestock()
         order->confirmedAt = now;
     }
 }
-
-
-time_t expiryDate;
-
-bool exchangeRequested;
-
-time_t exchangeArrivalDate;
-
-int exchangeQuantity;
 
 void autoProcessExpiredItems()
 {

@@ -2,8 +2,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include <ctype.h>
-#include <string.h>
 
 void rtrim(char *str)
 {

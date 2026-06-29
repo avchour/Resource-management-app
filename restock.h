@@ -1,6 +1,6 @@
-#include "data.h"
 #ifndef RESTOCK_H
 #define RESTOCK_H
+#include "data.h"
 int findRestockIndexByID(int orderID);
 int isOutOfStock(int stockID);
 int hasPendingRestockOrder(int stockID);

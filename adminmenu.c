@@ -53,7 +53,7 @@ void choosemode() // verify
         printf("------------------------------------\n");
         printf("1. Product Management\n");
         printf("2. Stock Management\n");
-        printf("3. Reports");
+       // printf("3. Reports");
         printf("0.Exit\n");
 
         switch (getIntInput("Enter your choice: "))

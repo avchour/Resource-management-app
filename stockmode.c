@@ -3,10 +3,12 @@
 #include <stdbool.h>
 #include "display.h"
 #include "productmode.h"
+#include "restock.h"
 #include "stockmode.h"
 #include "data.h"
 #include <ctype.h>
 #include "utils.h"
+#include "report.h"
 void stockMode()
 {
     bool admin_mode2_running = true;
@@ -16,11 +18,11 @@ void stockMode()
         printf("          CHECK INVENTORY\n");
         printf("====================================\n");
         printf("1. Display all items in inventory\n");
-        printf("2. view low stock items\n");
-        printf("3. view out of stock items\n");
+        printf("2. View low stock items\n");
+        printf("3. View out of stock items\n");
         printf("4. View pending restock orders and date\n");
-        printf("5. calculate daily and monthly sales report\n");
-        printf("6. Exit\n");
+        printf("5. Calculate daily and monthly sales report\n");
+        printf("0. Exit\n");
         printf("------------------------------------\n");
 
         switch (getIntInput("Enter your choice: "))
@@ -40,7 +42,7 @@ void stockMode()
         case 5:
             calculatedaily_monthlysalesReport();
             break;
-        case 6:
+        case 0:
             admin_mode2_running = false;
             printf("Exiting inventory check mode.\n");
             break;
@@ -74,7 +76,7 @@ void displayallitems()
             printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
                    mystock->stockID,
                    mystock->itemName,
-                   (*mystock->category == 'F' || *mystock->category == 'f') ? "Food" : (*mystock->category == 'D' || *mystock->category == 'd') ? "Drink" : "Snack",
+                   (mystock->category == 'F' ) ? "Food" : (mystock->category == 'D') ? "Drink" : "Snack",
                    mystock->costprice,
                    mystock->sellingcost,
                    mystock->onlineStock,

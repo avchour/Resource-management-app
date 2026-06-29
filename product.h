@@ -10,7 +10,7 @@ typedef enum
 } AddProductResult;
 int editProductName(int stockID, const char newName[]);
 
-int editCategory(int stockID, const char newCategory[]);
+int editCategory(int stockID, const char newCategory);
 
 int editCostPrice(int stockID, float newCostPrice);
 
@@ -18,6 +18,6 @@ int editSellingPrice(int stockID, float newSellingPrice);
 
 int findStockIndexByID(int stockID);
 
-AddProductResult addProduct(char *itemName, float costprice, float sellingcost, int quantity, char *category);
+AddProductResult addProduct(char *itemName, float costprice, float sellingcost, int quantity, char category);
 
 #endif
