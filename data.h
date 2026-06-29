@@ -65,7 +65,6 @@ typedef struct
     time_t requestedAt;
     time_t expectedArrivalAt;
     time_t confirmedAt;
-    
 
     float transportCost;
 } RestockOrder; // for track restock
