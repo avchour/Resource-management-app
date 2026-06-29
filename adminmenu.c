@@ -7,6 +7,7 @@
 #include "stockmode.h"
 #include <ctype.h>
 #include "utils.h"
+#include "reportmode.h"
 
 void admin_identification() // verify but the password not yet flow good
 {
@@ -53,7 +54,7 @@ void choosemode() // verify
         printf("------------------------------------\n");
         printf("1. Product Management\n");
         printf("2. Stock Management\n");
-       // printf("3. Reports");
+        printf("3. Reports\n");
         printf("0.Exit\n");
 
         switch (getIntInput("Enter your choice: "))
@@ -70,7 +71,7 @@ void choosemode() // verify
         case 0:
             running = false;
             printf("Exiting admin mode.\n");
-            display_login();
+            //display_login();
             break;
         default:
             printf("Invalid choice!\n");

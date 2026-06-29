@@ -12,7 +12,7 @@ int isOnlineAlert(int stockID)
         return 0;
     }
 
-    return store.stockItem[index].onlineStock <= store.stockItem[index].onlineAlertPoint;
+    return store.stockItem[index].onlineStock <= store.stockItem[index].onlineAlertPoint && store.stockItem[index].onlineAlertPoint > 0;
 }
 
 int isPhysicalAlert(int stockID)
@@ -24,7 +24,7 @@ int isPhysicalAlert(int stockID)
         return 0;
     }
 
-    return store.stockItem[index].physicalStock <= store.stockItem[index].physicalAlertPoint;
+    return store.stockItem[index].physicalStock <= store.stockItem[index].physicalAlertPoint && store.stockItem[index].physicalAlertPoint > 0 ;
 }
 
 int isExpiredStock(int stockID)

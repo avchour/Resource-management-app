@@ -5,7 +5,7 @@
 #include "report.h"
 
 
-void reportMode(void)
+void reportMode()
 {
     bool running = true;
 
