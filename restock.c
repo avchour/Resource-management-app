@@ -197,11 +197,6 @@ void autoProcessExpiredItems()
     {
         Stock *item = &store.stockItem[i];
 
-        /* -----------------------------
-           STEP 1
-           Item has expired.
-           Send it back to factory.
-        ------------------------------*/
         if (item->expiryDate <= now &&
             !item->exchangeRequested)
         {
@@ -219,11 +214,7 @@ void autoProcessExpiredItems()
             // Replacement arrives in 3 days
             item->exchangeArrivalDate = now + (3 * 24 * 60 * 60);
         }
-
-        /* -----------------------------
-           STEP 2
-           Replacement has arrived.
-        ------------------------------*/
+        
         else if (item->exchangeRequested &&
                  now >= item->exchangeArrivalDate)
         {
