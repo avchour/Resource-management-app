@@ -5,5 +5,5 @@ void viewoutofstockitems();
 void viewlowstockitems();
 void displayallitems();
 void adminMode_second();
-
+void calculatedaily_monthlysalesReport();
 #endif

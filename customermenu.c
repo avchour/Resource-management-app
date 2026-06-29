@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <string.h>
+#include <time.h>
 #include <stdbool.h>
 #include "data.h"
 #include "filehandler.h"
 #include "product.h"
 #include "customermenu.h"
-#include "stockmanagement.h"
 #include "utils.h"
 #include <ctype.h>
 #include "display.h"

@@ -226,3 +226,34 @@ void viewPendingRestockOrders()
     // exit to adminMode_second
 }
 
+void calculatedaily_monthlysalesReport() // verify
+{
+    if (store.transactionCount == 0)
+    {
+        printf("\nNo transactions recorded.\n");
+        return;
+    }
+
+    int choice;
+    printf("\n====================================\n");
+    printf("           SALES REPORT\n");
+    printf("====================================\n");
+    printf("1. Daily report\n");
+    printf("2. Monthly report\n");
+    printf("------------------------------------\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+
+    switch (choice)
+    {
+    case 1:
+        dailySalesReport();
+        break;
+    case 2:
+        monthlySalesReport();
+        break;
+    default:
+        printf("Invalid choice.\n");
+        break;
+    }
+}

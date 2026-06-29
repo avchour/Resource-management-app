@@ -5,6 +5,9 @@ int findRestockIndexByID(int orderID);
 int isOutOfStock(int stockID);
 int hasPendingRestockOrder(int stockID);
 int canRestock(int stockID);
+void autoProcessExpiredItems();
+void autoProcessRestock();
+
 typedef enum
 {
     RESTOCK_SUCCESS,

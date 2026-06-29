@@ -1,5 +1,4 @@
 #include <time.h>
-
 #include "alert.h"
 #include "product.h"
 #include "data.h"
