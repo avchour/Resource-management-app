@@ -233,9 +233,10 @@ void edit()
                 printf("Invalid selling price.\n");
             }
 
-            if (editSellingPrice(stockID, newSell))
+            if (editSellingPrice(stockID, newSell)){
                 printf("Selling price updated successfully.\n");
-            saveData();
+                saveData();
+            }
             else printf("Failed to update selling price.\n");
 
             break;

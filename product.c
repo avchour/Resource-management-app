@@ -129,8 +129,8 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
     /*
     Update store counters.
     */
-    store.stockItemCount++;
     store.nextStockID++;
+    store.stockItemCount++;
 
     return ADD_PRODUCT_SUCCESS;
 }
