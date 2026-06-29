@@ -58,12 +58,11 @@ int editProductName(int stockID, const char newName[])
     {
         return 0;
     }
-    for (int i = 0; i < store.stockItemCount; i++)
+    int duplicateIndex = findStockIndexByName(newName);
+
+    if (duplicateIndex != -1 && duplicateIndex != index)
     {
-        if (i != index && strcmp(store.stockItem[i].itemName, newName) == 0)
-        {
-            return 0;
-        }
+        return 0;
     }
 
     snprintf(store.stockItem[index].itemName, sizeof(store.stockItem[index].itemName), "%s", newName);
