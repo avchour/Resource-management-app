@@ -4,7 +4,6 @@ void productMode();
 
 void add();
 void edit();
-void delete();
 void search();
 void searchByID();
 #endif

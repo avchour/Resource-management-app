@@ -4,6 +4,7 @@
 #include "display.h"
 #include "productmode.h"
 #include "adminmenu.h"
+#include "stockmode.h"
 #include <ctype.h>
 #include "utils.h"
 
@@ -63,9 +64,9 @@ void choosemode() // verify
         case 2:
             stockMode(); // check inventory
             break;
-        case 3:
+      /*  case 3:
             reportMode();
-            break;
+            break;*/
         case 0:
             running = false;
             printf("Exiting admin mode.\n");

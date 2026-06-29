@@ -8,7 +8,7 @@ void customerMode();
 void purchaseItem(void);
 
 // Product viewing
-void displayCategory(char category);
+void displayCategory(const char category);
 void displayhotdealitems();
 void calculating_system(int stockID, int quantity);
 #endif

@@ -28,15 +28,15 @@ void customerMode()
         switch (getIntInput("Enter your choice: "))
         {
         case 1:
-            displayCategory('F');
+            displayCategory("F");
             break;
 
         case 2:
-            displayCategory('D');
+            displayCategory("D");
             break;
 
         case 3:
-            displayCategory('S');
+            displayCategory("S");
             break;
 
         case 4:
@@ -65,7 +65,7 @@ void purchaseItem()
     case ONLINE_PURCHASE_SUCCESS:
         calculating_system(stockID, quantity);
         printf("Purchase successful.\n");
-        savedata();
+        saveData();
         break;
 
     case ONLINE_PURCHASE_PRODUCT_NOT_FOUND:
@@ -104,24 +104,14 @@ void calculating_system(int stockID, int quantity)
     store.transactionCount++;
 }
 
-void displayCategory(char category)
+void displayCategory(const category)
 {
     printf("\n====================================\n");
 
-    switch (category)
-    {
-    case 'F':
-        printf("               FOOD\n");
-        break;
 
-    case 'D':
-        printf("              DRINKS\n");
-        break;
-
-    case 'S':
-        printf("              SNACKS\n");
-        break;
-    }
+    if (category =="F")  printf("               FOOD\n");
+    if (category =="D")  printf("              DRINKS\n");
+    if (category =="S")  printf("              SNACKS\n");
 
     printf("====================================\n");
 

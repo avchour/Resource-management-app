@@ -3,10 +3,11 @@
 #include <stdbool.h>
 #include "display.h"
 #include "productmode.h"
+#include "stockmode.h"
 #include "data.h"
 #include <ctype.h>
 #include "utils.h"
-void adminMode_second()
+void stockMode()
 {
     bool admin_mode2_running = true;
     do
@@ -49,7 +50,7 @@ void adminMode_second()
         }
     } while (admin_mode2_running);
 
-    choosemode();
+    return;
 }
 
 void displayallitems()

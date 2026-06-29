@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include "utils.h"
 #include "display.h"
+#include "customermenu.h"
+#include "adminmenu.h"
 #include <ctype.h>
 void display_login() // verify
 {

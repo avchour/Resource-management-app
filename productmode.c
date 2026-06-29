@@ -192,7 +192,8 @@ void edit()
             if (editProductName(stockID, newName))
                 printf("Product name updated successfully.\n");
             saveData();
-            else printf("Failed to update product name.\n");
+            else
+                printf("Failed to update product name.\n");
 
             break;
         }
@@ -214,7 +215,8 @@ void edit()
             if (editCostPrice(stockID, newCost))
                 printf("Cost price updated successfully.\n");
             saveData();
-            else printf("Failed to update cost price.\n");
+            else 
+                printf("Failed to update cost price.\n");
 
             break;
         }
@@ -237,7 +239,8 @@ void edit()
                 printf("Selling price updated successfully.\n");
                 saveData();
             }
-            else printf("Failed to update selling price.\n");
+            else 
+                printf("Failed to update selling price.\n");
 
             break;
         }

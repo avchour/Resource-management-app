@@ -4,6 +4,6 @@ void viewPendingRestockOrders();
 void viewoutofstockitems();
 void viewlowstockitems();
 void displayallitems();
-void adminMode_second();
+void stockMode();
 void calculatedaily_monthlysalesReport();
 #endif
