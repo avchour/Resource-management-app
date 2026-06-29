@@ -10,7 +10,7 @@
 typedef struct
 {
     char itemName[100];
-    char category[50];
+    char category;
     int stockID;
     float sellingcost;
     float costprice;
@@ -21,9 +21,6 @@ typedef struct
 
     int onlineAlertPoint;
     int physicalAlertPoint;
-
-    int normalRestockQuantity;
-    int emergencyRestockQuantity;
 
     time_t stockArrivalDate;
 

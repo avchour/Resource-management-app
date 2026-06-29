@@ -13,7 +13,7 @@ OnlinePurchaseResult purchaseOnline(int stockID, int quantity)
         return ONLINE_PURCHASE_PRODUCT_NOT_FOUND;
     }
 
-    if (store.stockItem[index].onlineStock <=quantity)
+    if (store.stockItem[index].onlineStock < quantity)
     {
         return ONLINE_PURCHASE_INVALID_QUANTITY;
     }

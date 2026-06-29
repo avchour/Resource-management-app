@@ -42,8 +42,7 @@ int editCategory(int stockID, const char newCategory)
     {
         return 0;
     }
-    store.stockItem[index].category[0] = newCategory;
-    store.stockItem[index].category[1] = '\0';
+    store.stockItem[index].category = newCategory;
     return 1;
 }
 int editProductName(int stockID, const char newName[])
@@ -135,8 +134,8 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
     productItem->sellingcost = sellingcost;
 
     productItem->quantity = quantity;
-    productItem->category[0] = toupper(category);
-    productItem->category[1] = '\0';
+    productItem->category = toupper(category);
+
     allocateStock(productItem);
 
     productItem->onlineAlertPoint = 0;

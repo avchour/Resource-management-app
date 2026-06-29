@@ -9,6 +9,8 @@
 #include <ctype.h>
 #include "utils.h"
 #include "report.h"
+#include "physicalpurchase.h"
+
 void stockMode()
 {
     static bool todaySimulated = false;
