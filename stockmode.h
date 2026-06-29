@@ -3,7 +3,6 @@
 void viewPendingRestockOrders();
 void viewoutofstockitems();
 void viewlowstockitems();
-void displayallitems();
 void stockMode();
 void calculatedaily_monthlysalesReport();
 #endif

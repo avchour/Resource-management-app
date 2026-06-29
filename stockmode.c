@@ -56,45 +56,6 @@ void stockMode()
     return;
 }
 
-void displayallitems()
-{
-    if (store.stockItemCount == 0)
-    {
-        printf("\nNo items in inventory.\n");
-        return;
-    }
-    else
-    {
-        printf("\n====================================\n");
-        printf("        ALL ITEMS IN INVENTORY\n");
-        printf("====================================\n");
-        printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n", "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
-        printf("----------------------------------------------------------------\n");
-
-        for (int i = 0; i < store.stockItemCount; i++)
-        {
-            Stock *mystock = &store.stockItem[i];
-            printf("%-6d %-20s %-10s %-10.2f %-10.2f %-8d %-8d %-10d\n",
-                   mystock->stockID,
-                   mystock->itemName,
-                   (mystock->category == 'F') ? "Food" : (mystock->category == 'D') ? "Drink"
-                                                                                    : "Snack",
-                   mystock->costprice,
-                   mystock->sellingcost,
-                   mystock->onlineStock,
-                   mystock->physicalStock,
-                   mystock->quantity);
-        }
-
-        printf("------------------------------------\n");
-        printf("Total items: %d\n", store.stockItemCount);
-    }
-    // code to display all items in inventory
-    // exit to adminMode_second
-}
-
-// checked
-
 void viewlowstockitems()
 {
     printf("\n====================================\n");
