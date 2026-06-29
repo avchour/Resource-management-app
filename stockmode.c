@@ -113,7 +113,7 @@ void viewlowstockitems()
     {
         Stock *mystock = &store.stockItem[i]; // use instead of using store.stockItem[i] many times
 
-        if (mystock->onlineStock <= mystock->onlineAlertPoint && mystock->onlineAlertPoint > 0) 
+   /*this line */     if (mystock->onlineStock <= mystock->onlineAlertPoint && mystock->onlineAlertPoint > 0) 
         {
             if (found == 0)
             {
