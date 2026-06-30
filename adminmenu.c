@@ -14,7 +14,7 @@ void admin_identification()
     char admin_username[20];
     char admin_password[18];
     char returnToMainChoice;
-    int login_running = 1; // Condition flag: 1 means keep trying, 0 means stop
+    int login_running = 1; 
 
     while (login_running)
     {
@@ -42,7 +42,6 @@ void admin_identification()
 
             scanf(" %c", &returnToMainChoice);
             
-            // Clean the input buffer so fgets doesn't get skipped on the next loop iteration
             while (getchar() != '\n'); 
 
             if (returnToMainChoice == 'n' || returnToMainChoice == 'N')
@@ -50,7 +49,6 @@ void admin_identification()
                 login_running = 0; // Set condition to false to exit the loop
                 display_login();
             }
-            // If they type 'y', login_running stays 1 and the loop naturally restarts
         }
     }
 }
