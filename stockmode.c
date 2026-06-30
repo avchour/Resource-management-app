@@ -28,7 +28,7 @@ void stockMode()
         printf("====================================\n");
         printf("1. Check low stock items\n");
         printf("2. Check out of stock items\n");
-        printf("3. Check pending restock orders and date\n");
+        printf("3. Check pending restock orders and exchange orders\n");
         printf("0. Exit\n");
         printf("------------------------------------\n");
 
