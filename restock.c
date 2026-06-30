@@ -7,6 +7,7 @@
 #include "stockmanagement.h"
 #include <stdbool.h>
 #include "report.h"
+#include <stdio.h>
 
 int findRestockIndexByID(int orderID)
 {
@@ -78,7 +79,7 @@ RestockResult createRestockOrder(int stockID, int quantity, RestockType type)
 
     if (type == RESTOCK_NORMAL)
     {
-        order->expectedArrivalAt = order->requestedAt + (5 * 24 * 60 * 60);
+        order->expectedArrivalAt = order->requestedAt + (14 * 24 * 60 * 60);
     }
     else
     {
@@ -121,10 +122,9 @@ RestockResult confirmDelivery(int orderID)
     allocateStock(&store.stockItem[productIndex]);
     store.stockItem[productIndex].stockArrivalDate = time(NULL);
 
+    store.stockItem[productIndex].expiryDate = time(NULL) + (30 * 24 * 60 * 60);
     order->status = DELIVERY_CONFIRMED;
-
     order->confirmedAt = time(NULL);
-
     saveData();
     return RESTOCK_SUCCESS;
 }
@@ -155,14 +155,13 @@ int hasPendingRestockOrder(int stockID) // prevent duplicate same product reques
     return 0;
 }
 // helper function
-void autoRequestLowStock()
+void autoRequestLowStock(void)
 {
     for (int i = 0; i < store.stockItemCount; i++)
     {
         Stock *item = &store.stockItem[i];
 
-        if (item->quantity > 0 &&
-            item->quantity <= 20 &&
+        if (item->quantity <= 20 &&
             !hasPendingRestockOrder(item->stockID))
         {
             int orderQty = 40 - item->quantity;
@@ -175,7 +174,7 @@ void autoRequestLowStock()
     }
 }
 
-void autoProcessRestock()
+void autoProcessRestock(void)
 {
     time_t now = time(NULL);
 
@@ -183,15 +182,12 @@ void autoProcessRestock()
     {
         RestockOrder *order = &store.restockOrderItem[i];
 
-        // Only process orders still in delivery
         if (order->status != DELIVERY_IN_TRANSIT)
             continue;
 
-        // Not yet arrived
         if (now < order->expectedArrivalAt)
             continue;
 
-        // Find product
         int index = findStockIndexByID(order->stockID);
 
         if (index == -1)
@@ -199,22 +195,19 @@ void autoProcessRestock()
 
         Stock *item = &store.stockItem[index];
 
-        // Add received stock
         item->quantity += order->quantity;
 
-        // Recalculate online/physical split
         allocateStock(item);
 
-        // Update stock arrival time
         item->stockArrivalDate = now;
-
-        // Mark order as completed
+        item->expiryDate = now + (30 * 24 * 60 * 60);
         order->status = DELIVERY_CONFIRMED;
         order->confirmedAt = now;
     }
+    saveData();
 }
 
-void autoProcessExpiredItems()
+void autoProcessExpiredItems(void)
 {
     time_t now = time(NULL);
 
@@ -222,40 +215,60 @@ void autoProcessExpiredItems()
     {
         Stock *item = &store.stockItem[i];
 
-        if (item->expiryDate <= now &&
-            !item->exchangeRequested)
+        if (item->quantity > 0 && item->expiryDate <= now && !item->exchangeRequested)
         {
-            // Remember how many items are being exchanged
             item->exchangeQuantity = item->quantity;
 
-            // Remove expired stock immediately
+            float fee =
+                item->exchangeQuantity *
+                item->costprice *
+                item->exchangeFeeRate;
+
+            printf("Exchange fee for %s: $%.2f\n",
+                   item->itemName, fee);
+
             item->quantity = 0;
             item->onlineStock = 0;
             item->physicalStock = 0;
 
-            // Create exchange request
             item->exchangeRequested = true;
 
-            // Replacement arrives in 3 days
             item->exchangeArrivalDate = now + (3 * 24 * 60 * 60);
         }
 
         else if (item->exchangeRequested &&
                  now >= item->exchangeArrivalDate)
         {
-            // Receive new stock
             item->quantity = item->exchangeQuantity;
 
-            // Split into online and physical stock
             allocateStock(item);
 
-            // New expiry date
-            item->expiryDate = now + (180 * 24 * 60 * 60);
-
-            // Reset exchange information
+            item->stockArrivalDate = now;
+            item->expiryDate = now + (30 * 24 * 60 * 60);
+            printf("%s exchange completed.\n", item->itemName);
             item->exchangeRequested = false;
             item->exchangeArrivalDate = 0;
             item->exchangeQuantity = 0;
         }
     }
+    saveData();
+}
+void afterStockChanged(int stockID)
+{
+    int index = findStockIndexByID(stockID);
+    if (index == -1)
+        return;
+
+    Stock *item = &store.stockItem[index];
+
+    if (item->quantity <= 20 &&
+        !hasPendingRestockOrder(stockID))
+    {
+        createRestockOrder(
+            stockID,
+            40 - item->quantity,
+            RESTOCK_EMERGENCY);
+    }
+
+    saveData();
 }

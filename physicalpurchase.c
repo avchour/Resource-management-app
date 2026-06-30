@@ -6,6 +6,7 @@
 #include "data.h"
 #include "filehandler.h"
 #include "alert.h"
+#include "restock.h"
 PhysicalPurchaseResult simulatePhysicalPurchase(int stockID)
 {
     int index = findStockIndexByID(stockID);
@@ -29,7 +30,8 @@ PhysicalPurchaseResult simulatePhysicalPurchase(int stockID)
 
     store.stockItem[index].physicalStock -= quantity;
     store.stockItem[index].quantity -= quantity;
-
+    afterStockChanged(stockID);
+    
     if (isPhysicalAlert(stockID))
     {
         printf("WARNING: Physical stock is low.\n");

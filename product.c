@@ -138,9 +138,6 @@ AddProductResult addProduct(char *itemName, float costprice, float sellingcost, 
 
     allocateStock(productItem);
 
-    productItem->onlineAlertPoint = 0;
-    productItem->physicalAlertPoint = 0;
-
     productItem->stockArrivalDate = time(NULL);
 
     productItem->expiryDate = productItem->stockArrivalDate + (180 * 24 * 60 * 60);
