@@ -8,8 +8,6 @@
 #include <stdbool.h>
 #include "report.h"
 
-
-
 int findRestockIndexByID(int orderID)
 {
     for (int i = 0; i < store.restockOrderCount; i++)
@@ -122,12 +120,12 @@ RestockResult confirmDelivery(int orderID)
     // call funct to split because ah nis order + ah total stock jg vea ot auto split stock management te jg yg hav derm bey split ruch kleng kron restock pleam auto split
     allocateStock(&store.stockItem[productIndex]);
     store.stockItem[productIndex].stockArrivalDate = time(NULL);
-    
+
     order->status = DELIVERY_CONFIRMED;
-    
+
     order->confirmedAt = time(NULL);
-    
-    saveData ();
+
+    saveData();
     return RESTOCK_SUCCESS;
 }
 int canRestock(int stockID)
@@ -156,6 +154,26 @@ int hasPendingRestockOrder(int stockID) // prevent duplicate same product reques
 
     return 0;
 }
+// helper function
+void autoRequestLowStock()
+{
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *item = &store.stockItem[i];
+
+        if (item->quantity > 0 &&
+            item->quantity <= 20 &&
+            !hasPendingRestockOrder(item->stockID))
+        {
+            int orderQty = 40 - item->quantity;
+
+            createRestockOrder(
+                item->stockID,
+                orderQty,
+                RESTOCK_EMERGENCY);
+        }
+    }
+}
 
 void autoProcessRestock()
 {
@@ -165,25 +183,32 @@ void autoProcessRestock()
     {
         RestockOrder *order = &store.restockOrderItem[i];
 
-        // Wait until delivery date
+        // Only process orders still in delivery
         if (order->status != DELIVERY_IN_TRANSIT)
             continue;
 
+        // Not yet arrived
         if (now < order->expectedArrivalAt)
             continue;
 
+        // Find product
         int index = findStockIndexByID(order->stockID);
 
         if (index == -1)
             continue;
 
-        // Add stock
-        store.stockItem[index].quantity += order->quantity;
+        Stock *item = &store.stockItem[index];
 
-        // Automatically split into online & physical
-        allocateStock(&store.stockItem[index]);
+        // Add received stock
+        item->quantity += order->quantity;
 
-        // Delivery finished
+        // Recalculate online/physical split
+        allocateStock(item);
+
+        // Update stock arrival time
+        item->stockArrivalDate = now;
+
+        // Mark order as completed
         order->status = DELIVERY_CONFIRMED;
         order->confirmedAt = now;
     }
@@ -214,7 +239,7 @@ void autoProcessExpiredItems()
             // Replacement arrives in 3 days
             item->exchangeArrivalDate = now + (3 * 24 * 60 * 60);
         }
-        
+
         else if (item->exchangeRequested &&
                  now >= item->exchangeArrivalDate)
         {
@@ -234,5 +259,3 @@ void autoProcessExpiredItems()
         }
     }
 }
-
-
