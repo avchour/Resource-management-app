@@ -9,42 +9,39 @@
 #include "utils.h"
 #include "reportmode.h"
 
-void admin_identification() // verify but the password not yet flow good
+void admin_identification()
 {
-
     char admin_username[20];
     char admin_password[18];
-    // design the admin login system
-    printf("Enter admin username: ");
-    fgets(admin_username, sizeof(admin_username), stdin);
-    // admin_username[strcspn(admin_username, "\n")] = '\0'; // remove newline character from username
-    printf("Enter the password: ");
-    // admin_password[strcspn(admin_password, "\n")] = '\0'; // remove newline character from password
-    fgets(admin_password, sizeof(admin_password), stdin);
 
-    // if (strcmp(admin_username, "admin") == 0 && strcmp(admin_password, "password123") == 0)
-    printf("Login successful!\n");
-    choosemode();
-    // }
-    // else
-    // {
-    //     printf("Invalid username or password. Access denied.\n");
-    //     printf("Login again or Exit to main menu \n");
-    //     // ask user to input again or exit to main menu
-    //     char returnToMainChoice[20];
-    //     printf("Do you want to try login again? (y/n): ");
+    while (1)
+    {
+        printf("\n=== Admin Verification ===\n");
 
-    //     scanf(" %1s", returnToMainChoice);
-    //     if (returnToMainChoice == 'n' || returnToMainChoice == 'N')
-    //         display_login();
-    //     else
-    //     {
-    //         admin_identification();
-    //     }
-    // }
+        printf("Enter admin username: ");
+        fgets(admin_username, sizeof(admin_username), stdin);
+        admin_username[strcspn(admin_username, "\n")] = '\0';
 
-    // if (admin_password matched ) ---> admin mode
+        printf("Enter the password: ");
+        fgets(admin_password, sizeof(admin_password), stdin);
+        admin_password[strcspn(admin_password, "\n")] = '\0';
+
+        if (strcmp(admin_username, "admin") == 0 && strcmp(admin_password, "password123") == 0)
+        {
+            printf("Login successful!\n");
+            choosemode();
+            return;
+        }
+        printf("Invalid username or password. Access denied.\n");
+        
+        if (!askAgain("Do you want to try login again?"))
+        {
+            display_login();
+            return;
+        }
+    }
 }
+
 void choosemode() // verify
 {
     bool running = true;
@@ -71,7 +68,7 @@ void choosemode() // verify
         case 0:
             running = false;
             printf("Exiting admin mode.\n");
-            //display_login();
+            // display_login();
             break;
         default:
             printf("Invalid choice!\n");
