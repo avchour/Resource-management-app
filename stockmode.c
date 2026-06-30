@@ -56,6 +56,46 @@ void stockMode()
     return;
 }
 
+void viewoutofstockitems()
+{
+    printf("\n====================================\n");
+    printf("        OUT OF STOCK ITEMS\n");
+    printf("====================================\n");
+
+    int found = 0;
+
+    for (int i = 0; i < store.stockItemCount; i++)
+    {
+        Stock *mystock = &store.stockItem[i];
+
+        if (isOutOfStock(mystock->stockID))
+        {
+            if (found == 0)
+            {
+                printf("%-6s %-20s %-10s\n", "ID", "Name", "Quantity");
+                printf("------------------------------------\n");
+            }
+
+            printf("%-6d %-20s %-10d\n",
+                   mystock->stockID,
+                   mystock->itemName,
+                   mystock->quantity);
+
+            found++;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("No out of stock items found.\n");
+    }
+    else
+    {
+        printf("------------------------------------\n");
+        printf("Total out of stock items: %d\n", found);
+    }
+}
+
 void viewlowstockitems()
 {
     printf("\n====================================\n");
@@ -101,13 +141,13 @@ void viewlowstockitems()
 void viewPendingRestockOrders()
 {
     printf("\n====================================\n");
-    printf("      PENDING DELIVERIES\n");
+    printf("       PENDING DELIVERIES\n");
     printf("====================================\n");
 
     int found = 0;
 
-    printf("%-20s %-12s\n", "Item Name", "Type");
-    printf("-------------------------------------\n");
+    printf("%-6s %-20s %-12s\n", "ID", "Item Name", "Type");
+    printf("------------------------------------------------\n");
 
     /* Pending Restock Orders */
     for (int i = 0; i < store.restockOrderCount; i++)
@@ -122,21 +162,23 @@ void viewPendingRestockOrders()
         if (index == -1)
             continue;
 
-        printf("%-20s %-12s\n",
+        printf("%-6d %-20s %-12s\n",
+               store.stockItem[index].stockID,
                store.stockItem[index].itemName,
                "Restock");
 
         found++;
     }
 
-    /* Pending Expired Exchanges */
+    /* Pending Expired Item Exchanges */
     for (int i = 0; i < store.stockItemCount; i++)
     {
         Stock *item = &store.stockItem[i];
 
         if (item->exchangeRequested)
         {
-            printf("%-20s %-12s\n",
+            printf("%-6d %-20s %-12s\n",
+                   item->stockID,
                    item->itemName,
                    "Exchange");
 
@@ -150,7 +192,7 @@ void viewPendingRestockOrders()
     }
     else
     {
-        printf("-------------------------------------\n");
+        printf("------------------------------------------------\n");
         printf("Total pending deliveries: %d\n", found);
     }
 }
