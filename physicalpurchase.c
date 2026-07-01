@@ -21,7 +21,7 @@ PhysicalPurchaseResult simulatePhysicalPurchase(int stockID)
         return PHYSICAL_PURCHASE_OUT_OF_STOCK;
     }
     // verify later with quantity
-    int quantity = rand() % 5+1;
+    int quantity = rand() % 5 + 1;
 
     if (quantity > store.stockItem[index].physicalStock)
     {
@@ -31,7 +31,7 @@ PhysicalPurchaseResult simulatePhysicalPurchase(int stockID)
     store.stockItem[index].physicalStock -= quantity;
     store.stockItem[index].quantity -= quantity;
     afterStockChanged(stockID);
-    
+
     if (isPhysicalAlert(stockID))
     {
         printf("WARNING: Physical stock is low.\n");
@@ -60,9 +60,18 @@ void simulateDailyPhysicalSales(void)
 
         int stockID = store.stockItem[productIndex].stockID;
 
-        printf("Customer %-2d bought %s\n",
-               i + 1,
-               store.stockItem[productIndex].itemName);
+        if (result == PHYSICAL_PURCHASE_SUCCESS)
+        {
+            printf("Customer %-2d bought %s\n",
+                   i + 1,
+                   store.stockItem[productIndex].itemName);
+        }
+        else
+        {
+            printf("Customer %-2d wanted %s but it was out of stock.\n",
+                   i + 1,
+                   store.stockItem[productIndex].itemName);
+        }
 
         simulatePhysicalPurchase(stockID);
     }
