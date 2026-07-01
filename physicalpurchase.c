@@ -59,7 +59,7 @@ void simulateDailyPhysicalSales(void)
         int productIndex = rand() % store.stockItemCount;
 
         int stockID = store.stockItem[productIndex].stockID;
-
+        PhysicalPurchaseResult result = simulatePhysicalPurchase(stockID);
         if (result == PHYSICAL_PURCHASE_SUCCESS)
         {
             printf("Customer %-2d bought %s\n",
@@ -72,8 +72,6 @@ void simulateDailyPhysicalSales(void)
                    i + 1,
                    store.stockItem[productIndex].itemName);
         }
-
-        simulatePhysicalPurchase(stockID);
     }
 
     saveData();
