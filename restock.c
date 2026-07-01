@@ -161,8 +161,9 @@ void autoRequestLowStock(void)
     {
         Stock *item = &store.stockItem[i];
 
-        if (item->quantity <= 20 &&
-            !hasPendingRestockOrder(item->stockID))
+        if ((item->quantity <= 20 || item->onlineStock == 0 ||
+             item->physicalStock == 0) &&
+            (!hasPendingRestockOrder(item->stockID)))
         {
             int orderQty = 40 - item->quantity;
 
