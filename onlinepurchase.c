@@ -29,9 +29,9 @@ OnlinePurchaseResult purchaseOnline(int stockID, int quantity)
     afterStockChanged(stockID);
     saveData();
     
-  /*  if (isOnlineAlert(stockID))
+    if (isOnlineAlert(stockID))
     {
         printf("WARNING: Online stock is low.\n");
-    }*/
+    }
     return ONLINE_PURCHASE_SUCCESS;
 }
