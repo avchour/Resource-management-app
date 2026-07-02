@@ -9,46 +9,35 @@
 #include "utils.h"
 #include "reportmode.h"
 
-void admin_identification() 
+void admin_identification()
 {
     char admin_username[20];
     char admin_password[18];
-    char returnToMainChoice;
-    int login_running = 1; 
 
-    while (login_running)
+    while (1)
     {
         printf("\n=== Admin Verification ===\n");
 
         printf("Enter admin username: ");
         fgets(admin_username, sizeof(admin_username), stdin);
-        admin_username[strcspn(admin_username, "\n")] = '\0'; 
+        admin_username[strcspn(admin_username, "\n")] = '\0';
 
         printf("Enter the password: ");
-        fgets(admin_password, sizeof(admin_password), stdin); 
-        admin_password[strcspn(admin_password, "\n")] = '\0'; 
+        fgets(admin_password, sizeof(admin_password), stdin);
+        admin_password[strcspn(admin_password, "\n")] = '\0';
 
         if (strcmp(admin_username, "admin") == 0 && strcmp(admin_password, "password123") == 0)
         {
             printf("Login successful!\n");
-            login_running = 0; // Break the loop condition
             choosemode();
+            return;
         }
-        else
+        printf("Invalid username or password. Access denied.\n");
+        
+        if (!askAgain("Do you want to try login again?"))
         {
-            printf("Invalid username or password. Access denied.\n");
-            printf("Login again or Exit to main menu \n");
-            printf("Do you want to try login again? (y/n): ");
-
-            scanf(" %c", &returnToMainChoice);
-            
-            while (getchar() != '\n'); 
-
-            if (returnToMainChoice == 'n' || returnToMainChoice == 'N')
-            {
-                login_running = 0; // Set condition to false to exit the loop
-                display_login();
-            }
+            display_login();
+            return;
         }
     }
 }

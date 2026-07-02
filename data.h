@@ -26,7 +26,7 @@ typedef struct
 
     float exchangeFeeRate;
 
-    /* ---------- Add these ---------- */
+    //add
 
     time_t expiryDate;
 

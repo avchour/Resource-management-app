@@ -108,7 +108,7 @@ void viewlowstockitems()
     {
         Stock *item = &store.stockItem[i];
 
-        // NEW RULE: fixed threshold = 20
+        // fixed threshold = 20
         if (item->quantity <= 20 && item->quantity > 0)
         {
             if (found == 0)
