@@ -21,7 +21,7 @@ int findRestockIndexByID(int orderID)
     return -1;
 }
 
-RestockResult cancelRestockOrder(int orderID)
+/*RestockResult cancelRestockOrder(int orderID)
 {
     int index = findRestockIndexByID(orderID);
 
@@ -38,7 +38,7 @@ RestockResult cancelRestockOrder(int orderID)
     store.restockOrderCount--;
 
     return RESTOCK_SUCCESS;
-}
+}*/
 
 RestockResult createRestockOrder(int stockID, int quantity, RestockType type)
 {

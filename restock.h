@@ -26,6 +26,6 @@ RestockResult updateDeliveryStatus(int orderID, DeliveryStatus status);
 
 RestockResult confirmDelivery(int orderID);
 
-RestockResult cancelRestockOrder (int orderID);
+//RestockResult cancelRestockOrder (int orderID);
 
 #endif
