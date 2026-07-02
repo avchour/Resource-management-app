@@ -155,7 +155,7 @@ int hasPendingRestockOrder(int stockID) // prevent duplicate same product reques
     return 0;
 }
 // helper function
-void autoRequestLowStock(void)
+/*void autoRequestLowStock(void)
 {
     for (int i = 0; i < store.stockItemCount; i++)
     {
@@ -173,7 +173,7 @@ void autoRequestLowStock(void)
                 RESTOCK_EMERGENCY);
         }
     }
-}
+}*/
 
 void autoProcessRestock(void)
 {

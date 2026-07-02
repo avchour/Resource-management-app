@@ -17,7 +17,7 @@ void displayallitems()
         printf("        ALL ITEMS IN INVENTORY\n");
         printf("====================================\n");
         printf("%-6s %-20s %-10s %-10s %-10s %-8s %-8s %-10s\n", "ID", "Name", "Category", "Cost", "Sell", "Online", "Physical", "Total");
-        printf("----------------------------------------------------------------\n");
+        printf("---------------------------------------------------------------------------------------\n");
 
         for (int i = 0; i < store.stockItemCount; i++)
         {
@@ -34,7 +34,7 @@ void displayallitems()
                    mystock->quantity);
         }
 
-        printf("------------------------------------\n");
+        printf("---------------------------------------------------------------------------------------\n");
         printf("Total items: %d\n", store.stockItemCount);
     }
     // code to display all items in inventory

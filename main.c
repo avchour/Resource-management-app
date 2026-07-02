@@ -8,7 +8,7 @@ int main(void)
     loadData();
     autoProcessExpiredItems();
     autoProcessRestock();
-    autoRequestLowStock();
+    // autoRequestLowStock();
     display_login();
     saveData();
     return 0;

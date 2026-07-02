@@ -7,7 +7,7 @@ int hasPendingRestockOrder(int stockID);
 int canRestock(int stockID);
 void autoProcessExpiredItems(void);
 void autoProcessRestock(void);
-void autoRequestLowStock(void);
+//void autoRequestLowStock(void);
 void afterStockChanged(int stockID);
 
 typedef enum
